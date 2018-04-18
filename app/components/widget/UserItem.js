@@ -1,8 +1,9 @@
-import React, {
-    Component,
-} from 'react'
+import React, {Component,} from 'react'
 import {
-    View, Text, Image, TouchableOpacity
+    View,
+    Text,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from '../../style'
@@ -26,10 +27,10 @@ class UserItem extends Component {
     }
 
     render() {
+        //this.props表示属性对象
         let {location, actionUser, actionUserPic} = this.props;
         let bottomDes = (this.props.des) ?
-            <Text style={[styles.subSmallText,
-                {marginTop: Constant.normalMarginEdge,}]}
+            <Text style={[styles.subSmallText, {marginTop: Constant.normalMarginEdge,}]}
                   numberOfLines={Constant.normalNumberOfLine}>
                 {this.props.des}
             </Text> : <View/>;
@@ -46,6 +47,7 @@ class UserItem extends Component {
                     Actions.PersonPage({currentUser: actionUser})
                 }}>
                 <View style={[styles.flexDirectionRowNotFlex,]}>
+                    {/*UserImage组件*/}
                     <UserImage uri={actionUserPic}
                                loginUser={actionUser}
                                resizeMethod="scale"

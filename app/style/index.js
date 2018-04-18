@@ -12,7 +12,9 @@ export const drawerWidth = screenWidth / 3 * 2;
 
 export const shadowRadius = (Platform.OS === 'android') ? 5 : 2;
 export const elevation = (Platform.OS === 'android') ? 2 : 1;
-
+//flexDirection可以决定布局的主轴-----默认值是竖直轴(column)方向
+//justifyContent决定其子元素沿着主轴的排列方式flex-start、center、flex-end、space-around以及space-between。
+//alignItems可以决定其子元素沿着次轴的排列方式---子元素对应的这些可选项有：flex-start、center、flex-end以及stretch
 const styles = StyleSheet.create({
     routerStyle: {
         //设置router的样式
@@ -62,6 +64,7 @@ const styles = StyleSheet.create({
         justifyContent: "center"
     },
     centered: {
+        //主轴和次轴均居中
         justifyContent: "center",
         alignItems: "center"
     },

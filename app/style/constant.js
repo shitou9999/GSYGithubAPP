@@ -3,7 +3,7 @@
  */
 
 /****************颜色****************/
-
+//export关键字可以加在任何变量或者函数前面，将他们导出
 export const miWhite = '#ececec';
 export const white = '#FFF';
 export const transparentColor = '#00000000';
@@ -21,7 +21,6 @@ export const primaryDarkColor = '#121917';
 export const primaryLightColor = '#42464b';
 
 export const webDraculaBackgroundColor = '#282a36';
-
 
 export const selectedColor = primaryDarkColor;
 

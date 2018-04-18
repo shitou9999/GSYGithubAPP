@@ -1,11 +1,12 @@
 /**
  * Created by guoshuyu on 2017/11/11.
  */
-import React, {
-    Component,
-} from 'react'
+import React, {Component,} from 'react'
 import {
-    View, Text, Image, TouchableOpacity
+    View,
+    Text,
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from '../../style'
@@ -20,6 +21,7 @@ import UserImage from './UserImage'
 
 /**
  * 事件列表Item
+ * 我的和推荐列表item
  */
 class EventItem extends Component {
     constructor(props) {
@@ -36,20 +38,20 @@ class EventItem extends Component {
     render() {
         let {actionTime, actionUser, actionUserPic, actionMode, actionTarget} = this.props;
         let bottomDes = (this.props.des) ?
-            <Text style={[styles.subSmallText,
-                {marginTop: Constant.normalMarginEdge,}]}
+            <Text style={[styles.subSmallText, {marginTop: Constant.normalMarginEdge,}]}
                   numberOfLines={Constant.normalNumberOfLine}>
                 {this.props.des}
             </Text> : <View/>;
-        let pic = (actionUserPic) ? <UserImage uri={actionUserPic}
-                                               loginUser={actionUser}
-                                               resizeMethod="scale"
-                                               style={[{
-                                                   height: Constant.smallIconSize, width: Constant.smallIconSize,
-                                                   marginTop: 5,
-                                                   marginRight: Constant.normalMarginEdge / 2,
-                                                   borderRadius: Constant.smallIconSize / 2
-                                               }]}/> : <View/>;
+        let pic = (actionUserPic) ?
+            <UserImage
+                uri={actionUserPic}
+                loginUser={actionUser}
+                resizeMethod="scale"
+                style={[{
+                    height: Constant.smallIconSize, width: Constant.smallIconSize,
+                    marginTop: 5, marginRight: Constant.normalMarginEdge / 2, borderRadius: Constant.smallIconSize / 2
+                }]}
+            /> : <View/>;
         return (
             <TouchableOpacity
                 style={[{
@@ -59,21 +61,19 @@ class EventItem extends Component {
                     padding: Constant.normalMarginEdge,
                     borderRadius: 4,
                 }, styles.shadowCard]}
+                {/*执行传的事件*/}
                 onPress={() => {
                     this.props.onPressItem && this.props.onPressItem();
                 }}
             >
+                {/*flexDirection默认排列为竖轴排列*/}
                 <View style={[styles.flexDirectionRowNotFlex,]}>
                     {pic}
                     <View style={[styles.flex, styles.centerH, styles.flexDirectionRowNotFlex]}>
-                        <Text style={[styles.flex, styles.smallText, {
-                            fontWeight: "bold",
-                        }]}>
+                        <Text style={[styles.flex, styles.smallText, {fontWeight: "bold",}]}>
                             {actionUser}
                         </Text>
-                        <TimeText style={[styles.subSmallText,
-                            {marginTop: -20}]}
-                                  time={actionTime}/>
+                        <TimeText style={[styles.subSmallText, {marginTop: -20}]} time={actionTime}/>
                     </View>
                 </View>
                 <View style={[styles.flexDirectionRowNotFlex, {marginTop: Constant.normalMarginEdge}]}>

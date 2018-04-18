@@ -33,48 +33,53 @@ class IssueItem extends Component {
 
     render() {
         let {actionTime, actionUser, actionUserPic, issueComment, markdownBody, issueCommentHtml} = this.props;
-        let bottom = (this.props.issueTag) ? <View style={[styles.flexDirectionRowNotFlex, styles.centerH]}>
-            <IconC name={this.props.state === 'open' ? "issue-opened" : "issue-closed"}
-                   backgroundColor={Constant.transparentColor}
-                   color={this.props.state === 'open' ? "green" : "red"} size={13}>
-                <Text style={[styles.subLightSmallText, {color: this.props.state === 'open' ? "green" : "red"}]}>
-                    {this.props.state + " "}
+        let bottom = (this.props.issueTag) ?
+            <View style={[styles.flexDirectionRowNotFlex, styles.centerH]}>
+                {/*横向排列*/}
+                {/*issue是否关闭*/}
+                <IconC name={this.props.state === 'open' ? "issue-opened" : "issue-closed"}
+                       backgroundColor={Constant.transparentColor}
+                       color={this.props.state === 'open' ? "green" : "red"} size={13}>
+                    <Text style={[styles.subLightSmallText, {color: this.props.state === 'open' ? "green" : "red"}]}>
+                        {this.props.state + " "}
+                    </Text>
+                </IconC>
+                {/*issue个数*/}
+                <Text style={[styles.subLightSmallText, {flex: 1}]}
+                      numberOfLines={Constant.normalNumberOfLine}>
+                    {this.props.issueTag}
                 </Text>
-            </IconC>
-            <Text style={[styles.subLightSmallText, {flex: 1}]}
-                  numberOfLines={Constant.normalNumberOfLine}>
-                {this.props.issueTag}
-            </Text>
-            <Icon.Button name="comment"
-                         iconStyle={{marginRight: 3}}
-                         backgroundColor={Constant.transparentColor}
-                         color={Constant.subLightTextColor} size={10}>
-                <Text style={[styles.subLightSmallText, {fontSize: Constant.minTextSize}]}>
-                    {this.props.commentCount}
-                </Text>
-            </Icon.Button>
-        </View> : <View/>;
+                {/*评论数*/}
+                <Icon.Button name="comment"
+                             iconStyle={{marginRight: 3}}
+                             backgroundColor={Constant.transparentColor}
+                             color={Constant.subLightTextColor} size={10}>
+                    <Text style={[styles.subLightSmallText, {fontSize: Constant.minTextSize}]}>
+                        {this.props.commentCount}
+                    </Text>
+                </Icon.Button>
+            </View> : <View/>;
         let bottomMargin = (this.props.issueTag) ? 0 : Constant.normalMarginEdge;
-
-        let body = (markdownBody) ? <HTMLView
-            style={[{
-                marginTop: Constant.normalMarginEdge / 2,
-                backgroundColor: Constant.transparentColor
-            }]}
-            numberOfLines={9999}
-            value={issueCommentHtml}
-            textComponentProps={{
-                style: styles.subSmallText,
-                numberOfLines: 9999,
-            }}
-            selectable={true}
-            stylesheet={{pre: styles.inCode, code: styles.pCode}}
-            textComponent={() => {
-                return (
-                    <Text/>
-                )
-            }}
-        /> : <Text selectable={true} style={[styles.subSmallText,]}>{issueComment}</Text>;
+        let body = (markdownBody) ?
+            <HTMLView
+                style={[{
+                    marginTop: Constant.normalMarginEdge / 2,
+                    backgroundColor: Constant.transparentColor
+                }]}
+                numberOfLines={9999}
+                value={issueCommentHtml}
+                textComponentProps={{
+                    style: styles.subSmallText,
+                    numberOfLines: 9999,
+                }}
+                selectable={true}
+                stylesheet={{pre: styles.inCode, code: styles.pCode}}
+                textComponent={() => {
+                    return (
+                        <Text/>
+                    )
+                }}
+            /> : <Text selectable={true} style={[styles.subSmallText,]}>{issueComment}</Text>;
 
 
         return (
@@ -101,11 +106,8 @@ class IssueItem extends Component {
                                    marginTop: 5,
                                    borderRadius: Constant.normalIconSize / 2
                                }]}/>
-                    <View style={{
-                        flex: 1,
-                        marginLeft: Constant.normalMarginEdge,
-                        marginBottom: bottomMargin
-                    }}>
+                    <View style={{flex: 1, marginLeft: Constant.normalMarginEdge, marginBottom: bottomMargin}}>
+                        {/*默认竖直排列布局*/}
                         <View style={[styles.flexDirectionRowNotFlex, styles.centerH]}>
                             <Text selectable={true} style={[styles.flex, styles.normalText, {fontWeight: "bold",}]}>
                                 {actionUser}

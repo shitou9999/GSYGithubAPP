@@ -22,6 +22,7 @@ export default class App extends Component<{}> {
             store: store,
             show: false
         };
+
         getLanguageCurrent().then((res) => {
             changeLocale(res.language);
             this.setState({

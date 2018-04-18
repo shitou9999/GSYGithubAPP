@@ -41,6 +41,7 @@ class ListPage extends Component {
         }
     }
 
+    //在该方法中，React会使用render方法返回的虚拟DOM对象创建真实的DOM结构，可以在这个方法中获取DOM节点
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             if (this.refs.pullList)
@@ -49,10 +50,12 @@ class ListPage extends Component {
         })
     }
 
+    //组件将要被挂载
     componentWillUnmount() {
 
     }
 
+    //已加载组件收到新的props之前调用,注意组件初始化渲染时则不会执行
     componentWillReceiveProps(newProps) {
         if (this.props.filterSelect !== newProps.filterSelect) {
             this.filterSelect = newProps.filterSelect;
@@ -68,6 +71,7 @@ class ListPage extends Component {
 
 
     _renderRow(rowData, sectionID, rowID, highlightRow) {
+        //根据该组件的showType
         switch (this.props.showType) {
             case 'repository':
                 if (this.props.dataType === 'history') {
@@ -115,6 +119,7 @@ class ListPage extends Component {
                         }}/>
                 );
             case 'release':
+                //我的--click仓库
                 return (
                     <ReleaseItem
                         actionTime={rowData.published_at}
@@ -141,6 +146,7 @@ class ListPage extends Component {
                     />
                 );
             case 'notify':
+                //我的通知
                 return (
                     <EventItem
                         actionTime={rowData.updated_at}
@@ -152,6 +158,7 @@ class ListPage extends Component {
                         actionTarget={rowData.subject.title}
                         onPressItem={() => {
                             if (rowData.unread) {
+                                //设置单个通知已读
                                 this.props.onItemClickEx && this.props.onItemClickEx(rowData.id);
                             }
                             if (rowData.subject.type === 'Issue') {
@@ -167,7 +174,7 @@ class ListPage extends Component {
                                     repositoryName: rowData.repository.name,
                                     userName: rowData.repository.owner.login,
                                     needRightBtn: true,
-                                    iconType:1,
+                                    iconType: 1,
                                     rightBtn: 'home',
                                     rightBtnPress: () => {
                                         Actions.RepositoryDetail({
@@ -284,6 +291,7 @@ class ListPage extends Component {
                 });
                 break;
             case 'notify':
+                //获取用户相关通知
                 userActions.getNotifation(this.props.all, this.props.participating, 0).then((res) => {
                     this._refreshRes(res)
                 });
@@ -371,6 +379,7 @@ class ListPage extends Component {
                 });
                 break;
             case 'notify':
+                //获取用户相关通知
                 userActions.getNotifation(this.props.all, this.props.participating, this.page).then((res) => {
                     this._loadMoreRes(res)
                 });
@@ -405,6 +414,7 @@ class ListPage extends Component {
         if (res && res.result) {
             this.page = 2;
             this.setState({
+                //当state发生变化时，会调用组件内部的render方法
                 dataSource: res.data
             });
             size = res.data.length;
@@ -437,6 +447,20 @@ class ListPage extends Component {
         }, 500);
     }
 
+    //ref是组件的特殊属性，组件被渲染后，指向组件的一个引用。可以通过组件的ref属性，来获取真实的组件。
+    //因为，组件并不是真正的DOM节点，而是存在于内存中的一种数据结构，称为虚拟的DOM，只有当它真正的插入
+    //文档之后，才变为真正的DOM节点。根据React的设计，所以DOM变动都发生在虚拟DOM上，然后再将实际的部
+    //分反映到真实的DOM上--这就是 DOM DIff，它可以提高页面性能。
+    //ref组件被渲染后，指向组件的一个引用
+    //ref属性的定义是在使用组件的部分，而组件的方法之类的都是在定义组件的里面就有的。
+    //render方法被调用的时候，组件就会被渲染。渲染完成之后，就可以获取这个组件实例啦，
+    // 因而就可以调用组件实例里的方法或者变量啦。
+    //定义组件的方式一:
+    //   ref="reftest"------>获得当前的组件this.refs.reftest或者this.refs[reftest]
+    //定义组件的方式二 :
+    //   ref={reftest=>this.reftest=reftest}
+    //[当组件被渲染后，ref属性reftest就有值啦，然后我们将它赋值给this.reftest 。
+    // 接下来就可以使用this.reftest来获取相应的方法]this.reftest或者this.refs['reftest']
     render() {
         return (
             <View style={styles.mainBox}>

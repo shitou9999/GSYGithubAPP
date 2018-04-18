@@ -21,17 +21,22 @@ const toLogin = () => async (dispatch, getState) => {
  */
 const doLogin = (userName, password, callback) => async (dispatch, getState) => {
     let base64Str = Buffer(userName + ":" + password).toString('base64');
+    //保存用户名和密码
     AsyncStorage.setItem(Constant.USER_NAME_KEY, userName);
     AsyncStorage.setItem(Constant.USER_BASIC_CODE, base64Str);
+    //请求参数
     let requestParams = {
         scopes: ['user', 'repo', 'gist', 'notifications'],
         note: "admin_script",
         client_id: CLIENT_ID,
         client_secret: CLIENT_SECRET
     };
+    //清除授权
     Api.clearAuthorization();
+    //await该关键字的作用时：等待该语句执行完毕才执行下一条代码。
     let res = await Api.netFetch(Address.getAuthorization(), 'POST', requestParams, true);
     if (res && res.result) {
+        //保存密码
         AsyncStorage.setItem(Constant.PW_KEY, password);
         let current = await userAction.getUserInfo();
         dispatch({
@@ -56,6 +61,12 @@ const loginOut = () => async (dispatch, getState) => {
         type: LOGIN.CLEAR,
     });
 };
+//使用async/await语法解决网络请求的异步导致的指令执行顺序错乱问题!!!!
+//如果你在一个代码块中使用了fetch，那么在执行的时候程序不会等待网络响应结束才执行下一条代码，
+// 而是会直接按顺序执行完整个代码块。而这样的话，某些具有先后条件的代码就会存在结果混乱等问题
+//加上 async 关键字，标示该方法是异步方法
+//而在方法中，使用 await 关键字修饰异步操作，
+// 该关键字的作用时：等待该语句执行完毕才执行下一条代码。
 
 /**
  * 获取当前登录用户的参数
@@ -63,12 +74,13 @@ const loginOut = () => async (dispatch, getState) => {
 const getLoginParams = async () => {
     let userName = await AsyncStorage.getItem(Constant.USER_NAME_KEY);
     let password = await AsyncStorage.getItem(Constant.PW_KEY);
+    //return对象js
     return {
         userName: (userName) ? userName : "",
         password: (password) ? password : "",
     }
 };
-
+//Action说白了就是一个带type属性的JavaScript对象
 export default {
     toLogin,
     doLogin,

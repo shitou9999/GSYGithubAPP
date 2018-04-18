@@ -1,0 +1,88 @@
+
+React-Redux将所有组件分为两大类：
+        展示组件（UI组件）
+        容器组件
+
+展示组件有以下几个特征：
+
+    只负责 UI 的呈现，不带有任何业务逻辑
+    没有状态（即不使用this.state这个变量）
+    所有数据都由参数（this.props）提供
+    不使用任何 Redux 的 API
+
+容器组件有以下几个特征：
+
+    负责管理数据和业务逻辑，不负责 UI 的呈现
+    带有内部状态
+    使用 Redux 的 API
+
+总结为一点： 展示组件负责 UI 的呈现，容器组件负责管理数据和逻辑
+
+//connect是真正的重点，意思是先接受两个参数
+// （数据绑定mapStateToProps和事件绑定mapDispatchToProps），再接受一个参数（将要绑定的组件本身）
+
+
+mapStateToProps必须是function,作为输入逻辑，
+mapDispatchToProps可以是funciton,也可以是对象，作为输出，
+
+connect（）签名------------》连接 React 组件与 Redux store
+连接操作不会改变原来的组件类，反而返回一个新的已与 Redux store 连接的组件类。
+
+容器组件使用 connect() 方法连接 Redux！！！！！！！！！！！！
+
+
+我们拥有一个 的展示组件，它有一个通过 props 传过来的值，
+和一个函数 onIncrement，当你点击 “Increment” 按钮时就会调用这个函数
+
+import { Component } from 'react';
+
+export default class Counter extends Component {
+     render() {
+         return (
+              <button onClick={this.props.onIncrement}>
+              {this.props.value}
+              </button>
+         );
+     }
+}
+
+// 哪些 Redux 全局的 state 是我们组件想要通过 props 获取的？
+    function mapStateToProps(state) {
+         return {
+            value: state.counter
+         };
+    }
+
+// 哪些 action 创建函数是我们想要通过 props 获取的？
+    function mapDispatchToProps(dispatch) {
+         return {
+            onIncrement: () => dispatch(increment())
+         };
+    }
+
+export default connect(
+ mapStateToProps,
+ mapDispatchToProps
+)(Counter);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,6 +10,7 @@ import IconC2 from 'react-native-vector-icons/MaterialCommunityIcons'
 
 /**
  * 通用输入框的快捷按键
+ * props 是组件对外的接口，state 是组件对内的接口
  */
 class CommonInputBar extends Component {
 
@@ -77,7 +78,6 @@ CommonInputBar.propTypes = {
     rootStyles: PropTypes.any,
     inputView: PropTypes.any,
 };
-
 
 CommonInputBar.defaultProps = {
     dataList: [],

@@ -60,45 +60,45 @@ class CommonHtmlView extends Component {
                 }}
                 renderNode={
                     (node, index, list, parent, domToElement) => {
-                            if (node.type === 'tag') {
-                                if (node.name === 'img') {
-                                    return (
-                                        <TouchableWithoutFeedback
-                                            key={index}
-                                            onPress={() => {
-                                                Actions.PhotoPage({uri: node.attribs.src})
-                                            }}>
-                                            <View style={{
+                        if (node.type === 'tag') {
+                            if (node.name === 'img') {
+                                return (
+                                    <TouchableWithoutFeedback
+                                        key={index}
+                                        onPress={() => {
+                                            Actions.PhotoPage({uri: node.attribs.src})
+                                        }}>
+                                        <View style={{
+                                            width: screenWidth - 105,
+                                            height: 300
+                                        }}>
+                                            <View style={[styles.centered, styles.absoluteFull, {
+                                                zIndex: -888,
                                                 width: screenWidth - 105,
-                                                height: 300
-                                            }}>
-                                                <View style={[styles.centered, styles.absoluteFull, {
-                                                    zIndex: -888,
-                                                    width: screenWidth - 105,
-                                                    height: 300,
-                                                }]}>
-                                                    <Icon name={'ios-image'} size={80} color={Constant.miWhite}/>
-                                                </View>
-                                                <Image source={{uri: node.attribs.src}}
-                                                       resizeMethod="scale"
-                                                       style={[styles.centerH, {
-                                                           width: screenWidth - 105,
-                                                           height: 300,
-                                                           marginTop: 5
-                                                       }]}>
-                                                </Image>
+                                                height: 300,
+                                            }]}>
+                                                <Icon name={'ios-image'} size={80} color={Constant.miWhite}/>
                                             </View>
-                                        </TouchableWithoutFeedback>
-                                    )
-                                } else {
-                                    let img = this.hadImageChildren(node);
-                                    if (img) {
-                                        return <View key={index}>
-                                            {domToElement(node.children, node)}
+                                            <Image source={{uri: node.attribs.src}}
+                                                   resizeMethod="scale"
+                                                   style={[styles.centerH, {
+                                                       width: screenWidth - 105,
+                                                       height: 300,
+                                                       marginTop: 5
+                                                   }]}>
+                                            </Image>
                                         </View>
-                                    }
+                                    </TouchableWithoutFeedback>
+                                )
+                            } else {
+                                let img = this.hadImageChildren(node);
+                                if (img) {
+                                    return <View key={index}>
+                                        {domToElement(node.children, node)}
+                                    </View>
                                 }
                             }
+                        }
                     }
                 }
                 {...this.props}/>

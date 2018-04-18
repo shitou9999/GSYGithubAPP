@@ -7,7 +7,7 @@ import {createReducer} from '../'
 const initialState = {
     type: LOGIN.CLEAR,
 };
-
+//每个 reducer 的 state 参数分别对应它管理的那部分 state
 const actionHandler = {
     [LOGIN.IN]: (state, action) => {
         return {}

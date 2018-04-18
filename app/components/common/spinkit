@@ -1,0 +1,62 @@
+
+利用state来显示或隐藏界面
+
+state一般用来改变组件的状态，假设我现在界面叫MainPage，我现在要控制它的显示或隐藏，
+
+就通过state来改变，state是可以通过setState来改变一个组件的状态，props就不行。
+
+我们需要在组件的构造器中初始化state，定义一个boolean值hidden，控制其显示或隐藏
+
+constructor(props){
+   super(props)
+   this.state={
+      hidden : true,//初始化设置为true，就是隐藏，我们一进入界面，肯定是要先隐藏的
+   }
+}
+
+网络请求成功后改变状态
+
+//网络请求  ES7写法
+  async requestApplyData() {
+      try {
+          let response = await fetch(REQUEST_URL)
+          let json = await response.json()
+
+          console.log("response",json)
+          let dataList = json.result.map(
+              (info) => {
+                  //请求成功后将boolean值置为false，也就是显示界面
+                  {this.setState({hidden:false})}
+                  return {
+                  /../  这边是请求数据的处理
+                  }
+              }
+          )
+      } catch (error) {
+          alert(error)
+      }
+  }
+
+显示界面的逻辑，通过判断state的这个boolean值
+    showPage(){
+          //隐藏
+          if(this.state.hidden){
+              return  (<loadding>);
+          }
+          //显示
+          return (
+             <view>
+                /../   这里就是MainPage的视图
+             </view>
+          )
+    }</loadding>
+
+MainPage的组件视图
+
+    render(){
+        return(
+            <view style="{styles.container}">
+                {this.showPage()}
+            </view>
+        )
+    };

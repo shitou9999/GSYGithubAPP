@@ -1,0 +1,53 @@
+
+*************用bind和用箭头函数哪个好？***************
+建议是写法二，因为其他写法都会返回一个新的引用，从而触发re-render，而第二种写法则不会。
+
+写法1：
+<XXView xxxx={this.xxA.bind(this)} />
+
+写法2：
+constructor(props) {
+    super(props);
+    this.xxA= this.xxA.bind(this);
+  }
+写法3：
+xxA = ()=>{};
+<XXView xxxx={this.xxA} />
+写法4：
+<XXView xxxx={()=>this.xxA} />
+我发觉2和3的做法，会触发xxA中的方法。
+如果在xxA中涉及到改动state（当然不规范），比如来个toString()之类的，更明显，就会触发
+“Cannot update during an existing state transition”警告。
+
+  onClick = () => {
+    // Blah blah
+  }
+
+  render() {
+    <a onClick={this.onClick}>Click</a>
+  }
+
+action方法
+open 弹出modal视图 this.refs.myModal.open()
+close 关闭modal视图 this.refs.myModal.close()事件监听方法
+onOpened 弹出modal视图时会调用这个方法
+onClosed 关闭modal视图时会调用这个方法
+onClosingState 滑动关闭modal视图时会调用这个方法属性
+isOpen 是否显示modal,默认是false,,如果为true一开始就显示,有动画,可用open方法打开
+startOpen 默认是false,是否组建一开始就显示,如果为true一开始就显示,无动画
+isDisabled action失效,即open、close方法失效,滑动不能关闭
+backdropPressToClose 点击背景是否关modal视图,当backdrop未false的情况下失效
+swipeToClose 是否滑动关闭
+swipeThreshold
+swipeArea 在可旋转区域的像素高度,默认窗口高度
+position model视图的位置,top、center、bottom
+entry 这个属性要注意一下,动画的起始位置top、bottom
+backdrop 是否有点击消失的背景。当这个为false时,backdropPressToClose失效
+backdropOpacity modal视图背景的透明度
+backdropColor modal视图背景的颜色
+backdropContent modal视图背景的内容(view)
+animationDuration 动画时间
+easing 打开modal视图是的方法函数
+backButtonClose 仅安卓,当为true时安卓手机按返回键时modal视图close
+coverScreen 当true时,modal后面的背景是这个window。比如有navitor时,导航条也会遮住
+keyboardTopOffset

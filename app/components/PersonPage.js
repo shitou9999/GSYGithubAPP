@@ -53,30 +53,34 @@ class PersonPage extends BasePersonPage {
     }
 
     _refreshInfo() {
-        userAction.getPersonUserInfo(this.props.currentUser).then((res) => {
-            if (res && res.result) {
-                this.setState({
-                    userInfo: res.data
-                });
-                if (res.data.type === "Organization") {
-                    Actions.refresh({titleData: res.data, showType: "Organization"});
-                } else {
-                    Actions.refresh({titleData: res.data, showType: "user"});
+        //获取用户详细信息
+        userAction.getPersonUserInfo(this.props.currentUser)
+            .then((res) => {
+                if (res && res.result) {
+                    this.setState({
+                        userInfo: res.data
+                    });
+                    if (res.data.type === "Organization") {
+                        Actions.refresh({titleData: res.data, showType: "Organization"});
+                    } else {
+                        Actions.refresh({titleData: res.data, showType: "user"});
+                    }
                 }
-            }
-            return res.next();
-        }).then((res) => {
-            if (res && res.result) {
-                this.setState({
-                    userInfo: res.data
-                });
-                if (res.data.type === "Organization") {
-                    Actions.refresh({titleData: res.data, showType: "Organization"});
-                } else {
-                    Actions.refresh({titleData: res.data, showType: "user"});
+                return res.next();
+            })
+            .then((res) => {
+                if (res && res.result) {
+                    this.setState({
+                        userInfo: res.data
+                    });
+                    if (res.data.type === "Organization") {
+                        Actions.refresh({titleData: res.data, showType: "Organization"});
+                    } else {
+                        Actions.refresh({titleData: res.data, showType: "user"});
+                    }
                 }
-            }
-        });
+            });
+        //检查用户关注状态
         userAction.checkFollow(this.props.currentUser).then((res) => {
             this.setState({
                 hadFollowed: res.result,
@@ -87,6 +91,7 @@ class PersonPage extends BasePersonPage {
 
     doFollowLogic() {
         Actions.LoadingModal({backExit: false});
+        //关注用户
         userAction.doFollow(this.props.currentUser, !this.state.hadFollowed).then(() => {
             this._refreshInfo();
             setTimeout(() => {

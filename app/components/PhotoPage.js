@@ -31,7 +31,7 @@ class PhotoPage extends Component {
 
     }
 
-
+    //带动画的加载指示-->安卓中ActivityIndicator对应ios中提供的是 ActivityIndicatorIos
     render() {
         let loading =
             <View style={[{
@@ -49,6 +49,7 @@ class PhotoPage extends Component {
         return (
             <View style={[styles.mainBox, {backgroundColor: Constant.primaryColor}]}>
                 <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
+                {/*onChange={(index) => {}} // 图片切换时触发*/}
                 <ImageViewer imageUrls={this.images}
                              failImageSource={require("../img/default_img.png")}
                              style={{width: screenWidth, height: screenHeight}}

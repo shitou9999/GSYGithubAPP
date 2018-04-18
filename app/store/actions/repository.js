@@ -83,7 +83,7 @@ const searchRepositoryIssue = async (q, name, reposName, page = 1, state) => {
     } else {
         qu = q + `+repo%3A${name}%2F${reposName}+state%3A${state}`;
     }
-
+    //搜索仓库issue
     let res = await RepositoryDao.searchRepositoryIssueDao(qu, page);
     return {
         result: res.result,

@@ -54,11 +54,8 @@ class OrgItemBar extends Component {
         if (dataList.length > 0) {
             let title =
                 <View
-                    key={"title"}
-                    style={[styles.centered, {
-                        height: itemSize,
-                        width: itemSize,
-                    },]}>
+                    style={[styles.centered, {height: itemSize, width: itemSize,},]}
+                    key={"title"}>
                     <Text style={[styles.miLightSmallText]}>
                         {I18n("userOrg")}
                     </Text>
@@ -96,10 +93,7 @@ class OrgItemBar extends Component {
         }
         return (
             <View style={[{height: itemSize, marginTop: Constant.normalMarginEdge / 2}, this.props.rootStyles]}>
-                <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                }}>
+                <View style={{flexDirection: 'row', alignItems: 'center',}}>
                     {items}
                 </View>
             </View>

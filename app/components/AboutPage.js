@@ -40,18 +40,20 @@ class AboutPage extends Component {
         let {repositoryName, userName} = this.props;
         Actions.LoadingModal({backExit: false});
         issueActions.createIssue("CarGuo", "GSYGithubApp",
-            {title: "APP " + I18n("feedback"), body: text}).then((res) => {
-            setTimeout(() => {
-                if (res && res.result) {
-                    Actions.pop();
-                    Toast("Thanks For Feedback");
-                } else {
-                    this.showFeedback(text);
-                }
-            }, 500);
-        })
+            {title: "APP " + I18n("feedback"), body: text})
+            .then((res) => {
+                setTimeout(() => {
+                    if (res && res.result) {
+                        Actions.pop();
+                        Toast("Thanks For Feedback");
+                    } else {
+                        this.showFeedback(text);
+                    }
+                }, 500);
+            })
     }
 
+    //反馈弹窗
     showFeedback(text) {
         Actions.TextInputModal({
             textConfirm: this._createIssue,
@@ -69,6 +71,7 @@ class AboutPage extends Component {
             <View style={styles.mainBox}>
                 <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
                 <ScrollView style={styles.flex}>
+                    {/*版本*/}
                     <CommonRowItem
                         showIconNext={true}
                         topLine={false}
@@ -87,6 +90,7 @@ class AboutPage extends Component {
                         onClickFun={() => {
                             getNewsVersion(true, false)
                         }}/>
+                    {/*作者*/}
                     <CommonRowItem
                         showIconNext={true}
                         topLine={false}
@@ -105,6 +109,7 @@ class AboutPage extends Component {
                         onClickFun={() => {
                             Actions.PersonPage({currentUser: "CarGuo"})
                         }}/>
+                    {/*项目地址*/}
                     <CommonRowItem
                         showIconNext={true}
                         topLine={false}
@@ -126,6 +131,7 @@ class AboutPage extends Component {
                                 , title: "CarGuo/GSYGithubApp"
                             });
                         }}/>
+                    {/*反馈*/}
                     <CommonRowItem
                         showIconNext={true}
                         topLine={false}
@@ -156,41 +162,45 @@ export const getNewsVersion = (showTip, onlyCheck = true) => {
     if (Platform.OS === "ios" && onlyCheck) {
         return
     }
-    repositoryActions.getRepositoryRelease("CarGuo", 'GSYGithubApp', 1, false).then((res) => {
-        if (res && res.result) {
-            //github只能有release的versionName，没有code，囧
-            let versionName = res.data[0].name;
-            if (__DEV__) {
-                console.log("service versionName ", versionName)
-            }
-            if (versionName) {
-                let versionNameNum = parseFloat(versionName);
-                let currentNum = parseFloat(VersionNumber.appVersion);
-                let newsHad = versionNameNum > currentNum;
+    repositoryActions.getRepositoryRelease("CarGuo", 'GSYGithubApp', 1, false)
+        .then((res) => {
+            if (res && res.result) {
+                //github只能有release的versionName，没有code，囧
+                let versionName = res.data[0].name;
                 if (__DEV__) {
-                    console.log("service versionNameNum ", versionNameNum);
-                    console.log("local currentNum ", currentNum);
-                    console.log("version update newsHad ", newsHad);
+                    console.log("service versionName ", versionName)
                 }
-                if (newsHad) {
-                    Actions.ConfirmModal({
-                        titleText: I18n('update'),
-                        text: I18n('update') + ": " + res.data[0].name + "\n" + res.data[0].body,
-                        textConfirm: () => {
-                            if (Platform.OS === "ios") {
-                                Linking.openURL(hostWeb + "CarGuo/GSYGithubApp/releases")
-                            } else {
-                                Linking.openURL(downloadUrl)
+                if (versionName) {
+                    //服务器版本
+                    let versionNameNum = parseFloat(versionName);
+                    //当前版本
+                    let currentNum = parseFloat(VersionNumber.appVersion);
+                    //是否需要更新
+                    let newsHad = versionNameNum > currentNum;
+                    if (__DEV__) {
+                        console.log("service versionNameNum ", versionNameNum);
+                        console.log("local currentNum ", currentNum);
+                        console.log("version update newsHad ", newsHad);
+                    }
+                    if (newsHad) {
+                        Actions.ConfirmModal({
+                            titleText: I18n('update'),
+                            text: I18n('update') + ": " + res.data[0].name + "\n" + res.data[0].body,
+                            textConfirm: () => {
+                                if (Platform.OS === "ios") {
+                                    Linking.openURL(hostWeb + "CarGuo/GSYGithubApp/releases")
+                                } else {
+                                    Linking.openURL(downloadUrl)
+                                }
                             }
-                        }
-                    });
-                } else {
-                    if (showTip)
-                        Toast(I18n("newestVersion"));
+                        });
+                    } else {
+                        if (showTip)
+                            Toast(I18n("newestVersion"));
+                    }
                 }
             }
-        }
-    })
+        })
 }
 
 export default AboutPage

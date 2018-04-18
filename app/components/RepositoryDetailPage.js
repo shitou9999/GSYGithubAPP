@@ -52,6 +52,7 @@ class RepositoryDetailPage extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
+            //仓库详情
             repositoryActions.getRepositoryDetail(this.props.ownerName, this.props.repositoryName)
                 .then((res) => {
                     if (res && res.result) {
@@ -59,6 +60,7 @@ class RepositoryDetailPage extends Component {
                             dataDetail: res.data
                         });
                         Actions.refresh({titleData: res.data});
+                        //添加到本地已读数据列表
                         repositoryActions.addRepositoryLocalRead(this.props.ownerName, this.props.repositoryName, res.data);
 
                     }
@@ -70,10 +72,12 @@ class RepositoryDetailPage extends Component {
                             dataDetail: res.data
                         });
                         Actions.refresh({titleData: res.data});
+                        //添加到本地已读数据列表
                         repositoryActions.addRepositoryLocalRead(this.props.ownerName, this.props.repositoryName, res.data);
                     }
                 });
             this._refresh();
+            //获取当前仓库所有分支
             repositoryActions.getBranches(this.props.ownerName, this.props.repositoryName)
                 .then((res) => {
                     if (res && res.result) {
@@ -163,7 +167,9 @@ class RepositoryDetailPage extends Component {
     }
 
     _handleIndexChange = index => {
-        this.setState({index})
+        this.setState(
+            {index}
+        )
     };
 
     _renderHeader = props =>
@@ -176,6 +182,7 @@ class RepositoryDetailPage extends Component {
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
+                //详情信息
                 return (
                     <WebComponent
                         source={{html: this.state.dataDetailReadme}}
@@ -194,6 +201,7 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '2':
+                //动态
                 return (
                     <RepositoryDetailActivity
                         dataDetail={this.state.dataDetail}
@@ -202,6 +210,7 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '3':
+                //文件
                 return (
                     <RepositoryDetailFile
                         ref={(ref) => {
@@ -213,6 +222,7 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '4':
+                //ISSUE
                 return (
                     <IssueListPage
                         userName={this.props.ownerName}
@@ -285,9 +295,9 @@ class RepositoryDetailPage extends Component {
             icon: 'repo-forked',
             itemClick: () => {
                 /*if (dataDetail.fork) {
-                    Toast(I18n("reposForked"));
-                    return
-                }*/
+                 Toast(I18n("reposForked"));
+                 return
+                 }*/
                 Actions.ConfirmModal({
                     titleText: I18n('reposFork'),
                     text: I18n('reposForkedTip'),
@@ -302,6 +312,7 @@ class RepositoryDetailPage extends Component {
         let popHeight = (this.state.dataDetailBranches) ? (itemHeight * this.state.dataDetailBranches.length + 20) : 100;
         let bottom = this.state.showBottom ?
             <View style={[styles.flexDirectionRowNotFlex, styles.centerH, styles.shadowCard]}>
+                {/*底部bar*/}
                 <CommonBottomBar dataList={this._getBottomItem()}
                                  rootStyles={{
                                      flex: 1,
@@ -314,6 +325,7 @@ class RepositoryDetailPage extends Component {
                                      elevation: 0,
                                  }}/>
                 <View style={{backgroundColor: Constant.primaryLightColor, width: 1, height: 20}}/>
+                {/*master点击展示pop*/}
                 <PopmenuItem
                     defaultIndex={0}
                     adjustFrame={(styless) => {
@@ -340,19 +352,14 @@ class RepositoryDetailPage extends Component {
             <View style={styles.mainBox}>
                 <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
                 <TabViewAnimated
-                    style={{
-                        flex: 1,
-                    }}
+                    style={{flex: 1,}}
                     lazy={true}
                     swipeEnabled={false}
                     navigationState={this.state}
                     renderScene={this._renderScene.bind(this)}
                     renderHeader={this._renderHeader}
                     onIndexChange={this._handleIndexChange}
-                    initialLayout={{
-                        height: 0,
-                        width: Dimensions.get('window').width,
-                    }}
+                    initialLayout={{height: 0, width: Dimensions.get('window').width,}}
                 />
                 {bottom}
             </View>

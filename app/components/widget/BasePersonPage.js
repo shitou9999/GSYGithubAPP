@@ -42,6 +42,7 @@ class BasePersonPage extends Component {
         this.showType = -1;
     }
 
+    //在该方法中，React会使用render方法返回的虚拟DOM对象创建真实的DOM结构，可以在这个方法中获取DOM节点
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
             if (this.refs.pullList)
@@ -51,11 +52,11 @@ class BasePersonPage extends Component {
         })
     }
 
+    //组件将要被挂载
     componentWillUnmount() {
-
     }
 
-
+    //已加载组件收到新的props之前调用,注意组件初始化渲染时则不会执行
     componentWillReceiveProps(newProps) {
         if (newProps.showType && newProps.showType !== this.props.showType) {
             if (newProps.showType === "Organization") {
@@ -101,51 +102,57 @@ class BasePersonPage extends Component {
     _refresh() {
         let userInfo = this.getUserInfo();
         if (this.showType === 1) {
-            userActions.getMember(1, userInfo.login).then((res) => {
-                if (res && res.result) {
-                    this.setState({
-                        dataSource: res.data
-                    });
-                }
-                return res.next();
-            }).then((res) => {
-                let size = 0;
-                if (res && res.result) {
-                    this.page = 2;
-                    this.setState({
-                        dataSource: res.data
-                    });
-                    size = res.data.length;
-                }
-                setTimeout(() => {
-                    if (this.refs.pullList) {
-                        this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), false);
+            //获取组织成员
+            userActions.getMember(1, userInfo.login)
+                .then((res) => {
+                    if (res && res.result) {
+                        this.setState({
+                            dataSource: res.data
+                        });
                     }
-                }, 500);
-            })
+                    return res.next();
+                })
+                .then((res) => {
+                    let size = 0;
+                    if (res && res.result) {
+                        this.page = 2;
+                        this.setState({
+                            dataSource: res.data
+                        });
+                        size = res.data.length;
+                    }
+                    setTimeout(() => {
+                        if (this.refs.pullList) {
+                            this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), false);
+                        }
+                    }, 500);
+                })
         } else if (this.showType === 0) {
-            eventActions.getEvent(1, userInfo.login).then((res) => {
-                if (res && res.result) {
-                    this.setState({
-                        dataSource: res.data
-                    });
-                }
-                return res.next();
-            }).then((res) => {
-                let size = 0;
-                if (res && res.result) {
-                    this.page = 2;
-                    this.setState({
-                        dataSource: res.data
-                    });
-                    size = res.data.length;
-                }
-                setTimeout(() => {
-                    if (this.refs.pullList) {
-                        this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), false);
+            //用户行为事件
+            eventActions.getEvent(1, userInfo.login)
+                .then((res) => {
+                    if (res && res.result) {
+                        this.setState({
+                            dataSource: res.data
+                        });
                     }
-                }, 500);
-            })
+                    return res.next();
+                })
+                .then((res) => {
+                    let size = 0;
+                    if (res && res.result) {
+                        this.page = 2;
+                        this.setState({
+                            dataSource: res.data
+                        });
+                        size = res.data.length;
+                    }
+                    setTimeout(() => {
+                        if (this.refs.pullList) {
+                            this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), false);
+                        }
+                    }, 500);
+                })
         }
     }
 
@@ -155,11 +162,13 @@ class BasePersonPage extends Component {
     _loadMore() {
         let userInfo = this.getUserInfo();
         if (this.showType === 1) {
+            //获取组织成员
             userActions.getMember(this.page, userInfo.login).then((res) => {
                 this.page++;
                 let size = 0;
                 if (res && res.result) {
                     let localData = this.state.dataSource.concat(res.data);
+                    //拼接已有数据并更新state
                     this.setState({
                         dataSource: localData
                     });
@@ -172,10 +181,12 @@ class BasePersonPage extends Component {
                 }, 500);
             });
         } else if (this.showType === 0) {
+            // //用户行为事件
             eventActions.getEvent(this.page, userInfo.login).then((res) => {
                 this.page++;
                 let size = 0;
                 if (res && res.result) {
+                    //拼接已有数据并更新state
                     let localData = this.state.dataSource.concat(res.data);
                     this.setState({
                         dataSource: localData
@@ -197,6 +208,7 @@ class BasePersonPage extends Component {
         }
     }
 
+    //获取用户组织
     _getOrgsList() {
         let userInfo = this.getUserInfo();
         userActions.getUserOrgs(1, userInfo.login)
@@ -207,15 +219,17 @@ class BasePersonPage extends Component {
                     })
                 }
                 return res.next()
-            }).then((res) => {
-            if (res.result) {
-                this.setState({
-                    orgsList: res.data,
-                })
-            }
-        })
+            })
+            .then((res) => {
+                if (res.result) {
+                    this.setState({
+                        orgsList: res.data,
+                    })
+                }
+            })
     }
 
+    //用户的前100仓库
     _getMoreInfo() {
         let userInfo = this.getUserInfo();
         repositoryActions.getUserRepository100Status(userInfo.login)

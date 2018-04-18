@@ -25,9 +25,7 @@ class IconTextItem extends Component {
             <View
                 style={[...smallIconTextStyle, ...this.props.viewstyle]}>
                 {iconView}
-                <Text style={[{marginLeft: halfEdge},
-                    ...this.props.textstyle,]}
-                      selectable={true}>
+                <Text style={[{marginLeft: halfEdge}, ...this.props.textstyle,]} selectable={true}>
                     {this.props.text}
                 </Text>
             </View>

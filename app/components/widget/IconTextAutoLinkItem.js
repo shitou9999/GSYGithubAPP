@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    View, Linking,Clipboard
+    View, Linking, Clipboard
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from "../../style"
@@ -13,6 +13,7 @@ import {launchUrl} from '../../utils/htmlUtils'
 
 
 class IconTextAutoLinkItem extends Component {
+
     componentDidMount() {
     }
 
@@ -45,8 +46,7 @@ class IconTextAutoLinkItem extends Component {
                         Toast(I18n("hadCopy"));
                     }}
                     style={[{marginLeft: halfEdge}, styles.miLightSmallText]}
-                    linkStyle={[
-                        ...this.props.textstyle]}>
+                    linkStyle={[...this.props.textstyle]}>
                 </Autolink>
             </View>
         )

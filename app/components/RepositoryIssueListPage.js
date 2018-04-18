@@ -24,7 +24,8 @@ import CommonBottomBar from "./common/CommonBottomBar";
  * 仓库issue列表
  */
 class RepositoryIssueListPage extends Component {
-
+    // Props 和 State 本质
+//props 是组件对外的接口，state 是组件对内的接口
     constructor(props) {
         super(props);
         this._searchTextChange = this._searchTextChange.bind(this);
@@ -44,6 +45,12 @@ class RepositoryIssueListPage extends Component {
             dataSource: []
         }
     }
+    // 请务必牢记，并不是组件中用到的所有变量都是组件的状态！
+    // 这个变量是否在组件的render方法中使用？如果不是，那么它不是一个状态。
+    // 这种情况下，这个变量更适合定义为组件的一个普通属性（除了props 和 state以外的组件属性 ），
+    // 例如组件中用到的定时器，就应该直接定义为this.timer，而不是this.state.timer。
+
+    // 当存在多个组件共同依赖同一个状态时，一般的做法是状态上移，将这个状态放到这几个组件的公共父组件中。
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
@@ -59,6 +66,7 @@ class RepositoryIssueListPage extends Component {
         this.searchText = text;
     }
 
+    //搜索
     _searchText() {
         Keyboard.dismiss();
         if (this.refs.pullList) {
@@ -68,6 +76,7 @@ class RepositoryIssueListPage extends Component {
             this.refs.pullList.showRefreshState();
         }
         if (this.searchText === null || this.searchText.trim().length === 0) {
+            //获取仓库issue
             issueActions.getRepositoryIssue(0, this.props.userName, this.props.repositoryName, this.filter)
                 .then((res) => {
                     if (res && res.result) {
@@ -77,39 +86,43 @@ class RepositoryIssueListPage extends Component {
                         });
                     }
                     return res.next();
-                }).then((res) => {
+                })
+                .then((res) => {
+                    let size = 0;
+                    if (res && res.result) {
+                        this.page = 2;
+                        let dataList = res.data;
+                        this.setState({
+                            dataSource: dataList
+                        });
+                        size = res.data.length;
+                    }
+                    if (this.refs.pullList) {
+                        this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), true);
+                    }
+                });
+            return
+        }
+        //搜索仓库issue
+        repositoryActions.searchRepositoryIssue(this.searchText, this.props.userName, this.props.repositoryName, 1, this.filter)
+            .then((res) => {
                 let size = 0;
                 if (res && res.result) {
                     this.page = 2;
-                    let dataList = res.data;
                     this.setState({
-                        dataSource: dataList
+                        dataSource: res.data
                     });
                     size = res.data.length;
                 }
-                if (this.refs.pullList) {
-                    this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), true);
-                }
+                setTimeout(() => {
+                    if (this.refs.pullList) {
+                        this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), true);
+                    }
+                }, 500);
             });
-            return
-        }
-        repositoryActions.searchRepositoryIssue(this.searchText, this.props.userName, this.props.repositoryName, 1, this.filter).then((res) => {
-            let size = 0;
-            if (res && res.result) {
-                this.page = 2;
-                this.setState({
-                    dataSource: res.data
-                });
-                size = res.data.length;
-            }
-            setTimeout(() => {
-                if (this.refs.pullList) {
-                    this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), true);
-                }
-            }, 500);
-        });
     }
 
+    //渲染item
     _renderRow(rowData, sectionID, rowID, highlightRow) {
         let fullName = getFullName(rowData.repository_url);
         return (
@@ -144,7 +157,27 @@ class RepositoryIssueListPage extends Component {
      * */
     _loadMore() {
         if (this.searchText === null || this.searchText.trim().length === 0) {
-            issueActions.getRepositoryIssue(this.page, this.props.userName, this.props.repositoryName, this.filter).then((res) => {
+            //获取仓库issue
+            issueActions.getRepositoryIssue(this.page, this.props.userName, this.props.repositoryName, this.filter)
+                .then((res) => {
+                    let size = 0;
+                    if (res && res.result) {
+                        this.page++;
+                        let dataList = this.state.dataSource.concat(res.data);
+                        this.setState({
+                            dataSource: dataList
+                        });
+                        size = res.data.length;
+                    }
+                    if (this.refs.pullList) {
+                        this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
+                    }
+                });
+            return
+        }
+        //搜索仓库issue
+        repositoryActions.searchRepositoryIssue(this.searchText, this.props.userName, this.props.repositoryName, this.page, this.filter)
+            .then((res) => {
                 let size = 0;
                 if (res && res.result) {
                     this.page++;
@@ -158,22 +191,6 @@ class RepositoryIssueListPage extends Component {
                     this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
                 }
             });
-            return
-        }
-        repositoryActions.searchRepositoryIssue(this.searchText, this.props.userName, this.props.repositoryName, this.page, this.filter).then((res) => {
-            let size = 0;
-            if (res && res.result) {
-                this.page++;
-                let dataList = this.state.dataSource.concat(res.data);
-                this.setState({
-                    dataSource: dataList
-                });
-                size = res.data.length;
-            }
-            if (this.refs.pullList) {
-                this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
-            }
-        });
     }
 
     _getBottomItem() {
@@ -184,6 +201,7 @@ class RepositoryIssueListPage extends Component {
             icon: select === 0 ? "check" : null,
             iconColor: Constant.white,
             itemClick: () => {
+                //全部
                 this.setState({
                     select: 0,
                     dataSource: [],
@@ -197,6 +215,7 @@ class RepositoryIssueListPage extends Component {
             icon: select === 1 ? "check" : null,
             iconColor: Constant.white,
             itemClick: () => {
+                //打开
                 this.setState({
                     select: 1,
                     dataSource: [],
@@ -212,6 +231,7 @@ class RepositoryIssueListPage extends Component {
             icon: select === 2 ? "check" : null,
             iconColor: Constant.white,
             itemClick: () => {
+                //关闭
                 this.setState({
                     select: 2,
                     dataSource: [],
@@ -262,6 +282,7 @@ class RepositoryIssueListPage extends Component {
                     height: 40,
                     paddingVertical: Constant.normalMarginEdge / 3,
                 }]}>
+                    {/*搜索框*/}
                     <TextInput
                         onChangeText={(text) => {
                             this._searchTextChange(text)
@@ -284,6 +305,7 @@ class RepositoryIssueListPage extends Component {
                         }, styles.flex]}/>
                 </View>
                 <View style={[styles.centerH, styles.flexDirectionRowNotFlex]}>
+                    {/*全部，打开，关闭*/}
                     <CommonBottomBar
                         rootStyles={{
                             flex: 1,
@@ -294,6 +316,7 @@ class RepositoryIssueListPage extends Component {
                         }}
                         dataList={this._getBottomItem()}/>
                 </View>
+                {/*列表*/}
                 <PullListView
                     style={{flex: 1}}
                     ref="pullList"

@@ -53,12 +53,12 @@ const getTrendDao = async (page = 0, since, languageType) => {
             result: false
         };
     }
-
 };
 
 
 /**
  * Pulse
+ * 仓库pulse表
  */
 const getPulseDao = async (owner, repositoryName) => {
     let fullName = owner + "/" + repositoryName;
@@ -68,11 +68,11 @@ const getPulseDao = async (owner, repositoryName) => {
             realm.write(() => {
                 let allData = realm.objects('RepositoryPulse').filtered(`fullName="${fullName}"`);
                 realm.delete(allData);
+                //创建表
                 realm.create('RepositoryPulse', {
                     fullName: fullName,
                     data: JSON.stringify(res.data)
                 });
-
             });
         }
         return {
@@ -80,6 +80,7 @@ const getPulseDao = async (owner, repositoryName) => {
             result: res.result
         };
     };
+    //从数据库取数据 没有异步async()
     let allData = realm.objects('RepositoryPulse').filtered(`fullName="${fullName}"`);
     if (allData && allData.length > 0) {
         return {
@@ -133,10 +134,12 @@ const searchRepositoryIssueDao = async (q, page) => {
 
 /**
  * 用户的仓库
+ * 用户仓库表
  */
 const getUserRepositoryDao = async (userName, page, sort, localNeed) => {
     let sortText = sort ? sort : "pushed";
     let nextStep = async () => {
+        //用户的仓库 get
         let url = Address.userRepos(userName, sort) + Address.getPageParams("&", page);
         let res = await await Api.netFetch(url);
         if (res && res.result && res.data.length > 0 && page <= 1) {
@@ -330,6 +333,7 @@ const getRepositoryDetailReadmeHtmlDao = (userName, reposName, branch) => {
 
 /**
  * 添加到本地已读数据列表
+ * ReadHistory----->本地已读历史表
  */
 const addRepositoryLocalReadDao = (userName, reposName, data) => {
     let fullName = userName + "/" + reposName;
@@ -380,6 +384,7 @@ const createForkDao = async (userName, reposName) => {
 
 /**
  * 获取当前仓库所有分支
+ * RepositoryBranch----->仓库分支表
  */
 const getBranchesDao = (userName, reposName) => {
     let fullName = userName + "/" + reposName;
@@ -427,6 +432,7 @@ const getBranchesDao = (userName, reposName) => {
 
 /**
  * 获取仓库的fork分支
+ * 仓库分支表
  */
 const getRepositoryForksDao = (userName, reposName, page, localNeed) => {
     let fullName = userName + "/" + reposName;
@@ -476,6 +482,7 @@ const getRepositoryForksDao = (userName, reposName, page, localNeed) => {
 
 /**
  * 获取当前仓库所有star用户
+ * 仓库收藏用户表
  */
 const getRepositoryStarDao = (userName, reposName, page, localNeed) => {
     let fullName = userName + "/" + reposName;
@@ -524,6 +531,7 @@ const getRepositoryStarDao = (userName, reposName, page, localNeed) => {
 
 /**
  * 获取当前仓库所有订阅用户
+ * 仓库订阅用户表
  */
 const getRepositoryWatcherDao = (userName, reposName, page, localNeed) => {
     let fullName = userName + "/" + reposName;
@@ -635,6 +643,7 @@ const getRepositoryTagDao = async (userName, reposName, page) => {
 
 /**
  * 获取仓库的提交列表
+ * 仓库提交信息表
  */
 const getReposCommitsDao = (userName, reposName, page, localNeed) => {
     let fullName = userName + "/" + reposName;
@@ -685,6 +694,7 @@ const getReposCommitsDao = (userName, reposName, page, localNeed) => {
 
 /**
  * 获取仓库的单个提交详情
+ * 仓库提交信息详情表
  */
 const getReposCommitsInfoDao = (userName, reposName, sha) => {
     let fullName = userName + "/" + reposName;

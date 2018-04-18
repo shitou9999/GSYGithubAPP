@@ -28,10 +28,11 @@ import TagGroup from "./TagGroup";
 
 /**
  * 仓库相关Item显示
+ * item点击显示详情的动态区域头部显示组件
  */
 class RepositoryHeader extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         this.getOptionItem = this.getOptionItem.bind(this);
     }
 
@@ -44,11 +45,8 @@ class RepositoryHeader extends Component {
 
 
     getOptionItem = () => {
-        let {
-            repositoryIssue,
-            repositoryIssueClose,
-            repositoryIssueAll,
-        } = this.props;
+        let {repositoryIssue, repositoryIssueClose, repositoryIssueAll,} = this.props;
+
         if (!repositoryIssue) {
             repositoryIssue = "---"
         }
@@ -62,23 +60,17 @@ class RepositoryHeader extends Component {
         let item1 = {
             itemName: "Open: " + repositoryIssue,
             itemClick: () => {
-            }, itemStyle: {
-                borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,
-            }
+            }, itemStyle: {borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,}
         };
         let item2 = {
             itemName: "Closed: " + repositoryIssueClose,
             itemClick: () => {
-            }, itemStyle: {
-                borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,
-            }
+            }, itemStyle: {borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,}
         };
         let item3 = {
             itemName: "All: " + repositoryIssueAll,
             itemClick: () => {
-            }, itemStyle: {
-                borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,
-            }
+            }, itemStyle: {borderBottomWidth: StyleSheet.hairlineWidth, borderTopColor: Constant.lineColor,}
         };
         data.push(item1);
         data.push(item2);
@@ -135,20 +127,22 @@ class RepositoryHeader extends Component {
                     padding: Constant.normalMarginEdge,
                     borderRadius: 4,
                 }}>
-                    <View style={[styles.flexDirectionRowNotFlex, {
-                        backgroundColor: Constant.transparentColor,
-                    }]}>
+                    {/*View默认竖直排列*/}
+                    <View style={[styles.flexDirectionRowNotFlex, {backgroundColor: Constant.transparentColor,}]}>
                         <TouchableOpacity
                             onPress={() => {
                                 Actions.PersonPage({currentUser: ownerName})
                             }}>
+                            {/*仓库拥有者*/}
                             <Text style={[styles.normalTextMitWhite, styles.shadowText, {fontWeight: "bold"}, {
                                 backgroundColor: Constant.transparentColor,
                             }]}>{ownerName}</Text>
                         </TouchableOpacity>
+                        {/*连接线*/}
                         <Text style={[styles.normalTextMitWhite, styles.shadowText, {fontWeight: "bold"}, {
                             backgroundColor: Constant.transparentColor,
                         }]}>{" / "}</Text>
+                        {/*仓库名字*/}
                         <Text selectable={true}
                               style={[styles.normalTextMitWhite, styles.shadowText, {fontWeight: "bold"}, {
                                   backgroundColor: Constant.transparentColor,
@@ -157,6 +151,7 @@ class RepositoryHeader extends Component {
                     <View style={[styles.flexDirectionRowNotFlex, {marginTop: Constant.normalMarginEdge / 2}, {
                         backgroundColor: Constant.transparentColor,
                     }]}>
+                        {/*仓库类型*/}
                         <Text style={[styles.shadowText, {
                             color: Constant.miWhite,
                             fontSize: Constant.minTextSize,
@@ -166,6 +161,7 @@ class RepositoryHeader extends Component {
                               numberOfLines={1}>
                             {repositoryType}
                         </Text>
+                        {/*仓库大小*/}
                         <Text style={[styles.shadowText, {
                             color: Constant.miWhite, fontSize: Constant.minTextSize,
                             marginRight: Constant.normalMarginEdge,
@@ -174,6 +170,7 @@ class RepositoryHeader extends Component {
                               numberOfLines={1}>
                             {repositorySize}
                         </Text>
+                        {/**/}
                         <Text style={[styles.shadowText, {
                             color: Constant.miWhite, fontSize: Constant.minTextSize,
                             backgroundColor: Constant.transparentColor,
@@ -183,16 +180,10 @@ class RepositoryHeader extends Component {
                         </Text>
                     </View>
                     <HTMLView
-                        style={[{
-                            marginTop: Constant.normalMarginEdge / 2,
-                            backgroundColor: Constant.transparentColor
-                        }]}
+                        style={[{marginTop: Constant.normalMarginEdge / 2, backgroundColor: Constant.transparentColor}]}
                         numberOfLines={100}
                         value={repositoryDes}
-                        textComponentProps={{
-                            style: styles.miLightSmallText,
-                            numberOfLines: 100,
-                        }}
+                        textComponentProps={{style: styles.miLightSmallText, numberOfLines: 100,}}
                         selectable={true}
                         textComponent={() => {
                             return (
@@ -216,6 +207,7 @@ class RepositoryHeader extends Component {
                                 });
                             }
                         }}>
+                        {/*创建于2015-03最后提交于1天前*/}
                         <Text
                             style={[styles.shadowText, {
                                 color: repositoryIsFork ? Constant.actionBlue : Constant.white,
@@ -227,14 +219,17 @@ class RepositoryHeader extends Component {
                             {infoText}
                         </Text>
                     </TouchableOpacity>
+                    {/*中间*/}
                     <View style={[styles.flexDirectionRowNotFlex, {
                         marginTop: Constant.normalMarginEdge / 2,
                         paddingVertical: Constant.normalMarginEdge / 2,
                         borderColor: Constant.lineColor, borderTopWidth: StyleSheet.hairlineWidth,
                         backgroundColor: Constant.transparentColor,
                     }]}>
+                        {/*横排列*/}
                         <TouchableOpacity
                             style={[styles.flex, styles.centered, {paddingVertical: Constant.normalMarginEdge}]}>
+                            {/*star*/}
                             <Icon name="star-o" {...bottomIconStyle}
                                   onPress={() => {
                                       Actions.ListPage({
@@ -245,7 +240,9 @@ class RepositoryHeader extends Component {
                                       })
                                   }}>
                                 <Text
-                                    style={[styles.miLightSmallText, styles.shadowText,]}>{" " + repositoryStar}</Text>
+                                    style={[styles.miLightSmallText, styles.shadowText,]}>
+                                    {" " + repositoryStar}
+                                </Text>
                             </Icon>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -260,9 +257,12 @@ class RepositoryHeader extends Component {
                                     title: this.props.ownerName + "/" + this.props.repositoryName
                                 })
                             }}>
+                            {/*fork*/}
                             <Icon name="code-fork" {...bottomIconStyle} >
                                 <Text
-                                    style={[styles.miLightSmallText, styles.shadowText,]}>{" " + repositoryFork}</Text>
+                                    style={[styles.miLightSmallText, styles.shadowText,]}>
+                                    {" " + repositoryFork}
+                                </Text>
                             </Icon>
                         </TouchableOpacity>
 
@@ -279,9 +279,12 @@ class RepositoryHeader extends Component {
                                     title: this.props.ownerName + "/" + this.props.repositoryName
                                 })
                             }}>
+                            {/*Watch*/}
                             <IconC name="eye" {...bottomIconStyle}>
                                 <Text
-                                    style={[styles.miLightSmallText, styles.shadowText,]}>{" " + repositoryWatch}</Text>
+                                    style={[styles.miLightSmallText, styles.shadowText,]}>
+                                    {" " + repositoryWatch}
+                                </Text>
                             </IconC>
                         </TouchableOpacity>
                         <TouchableOpacity
@@ -289,15 +292,16 @@ class RepositoryHeader extends Component {
                             onPress={() => {
                                 Actions.OptionModal({dataList: this.getOptionItem()});
                             }}>
+                            {/*Issue*/}
                             <IconC name="issue-opened" {...bottomIconStyle}>
                                 <Text
-                                    style={[styles.miLightSmallText, styles.shadowText,]}>{" " + repositoryIssue}</Text>
+                                    style={[styles.miLightSmallText, styles.shadowText,]}>
+                                    {" " + repositoryIssue}
+                                </Text>
                             </IconC>
                         </TouchableOpacity>
                     </View>
-                    <TagGroup
-                        tagList={topics}
-                    />
+                    <TagGroup tagList={topics}/>
                 </View>
             </ImageBackground>
         );

@@ -10,23 +10,23 @@ import PropTypes from 'prop-types';
 import * as Constant from '../../style/constant'
 import styles from '../../style'
 import I18n from '../../style/i18n'
-
+/**
+ * 搜索过滤组件
+ */
 class SearchFilterSelectList extends Component {
+
     state: { dataSource: any };
 
     constructor(props: any) {
         super(props);
-
         this.ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => (r1 !== r2),
             sectionHeaderHasChanged: (s1, s2) => s1 !== s2
         });
-
         this.state = {
             dataSource: this.ds.cloneWithRowsAndSections(this.props.selectMap),
             selectIndex: this.props.selectIndex
         };
-
         this._renderRow = this._renderRow.bind(this);
         this._renderSectionHeader = this._renderSectionHeader.bind(this);
     }
@@ -56,8 +56,10 @@ class SearchFilterSelectList extends Component {
                     this.props.onSelect && this.props.onSelect(sectionID, data.value);
                 }}
             >
-                <Text style={[(data.select)
-                    ? styles.normalText : styles.subSmallText, {textAlign: 'center'}]}>{I18n(data.name)}</Text>
+                <Text style={[(data.select) ?
+                    styles.normalText : styles.subSmallText, {textAlign: 'center'}]}>
+                    {I18n(data.name)}
+                </Text>
             </TouchableOpacity>
         );
     }

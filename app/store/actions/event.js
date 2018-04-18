@@ -16,6 +16,7 @@ const getEventReceived = (page = 0, callback) => async (dispatch, getState) => {
     }
     if (page <= 1) {
         let resLocal = await EventDao.getEventReceivedDao(page, user.userInfo.login, true);
+        //数据库数据
         if (resLocal && resLocal.result) {
             dispatch({
                 type: EVENT.RECEIVED_EVENTS,
@@ -24,6 +25,7 @@ const getEventReceived = (page = 0, callback) => async (dispatch, getState) => {
         }
     }
     let res = await EventDao.getEventReceivedDao(page, user.userInfo.login);
+    //网络数据
     if (res && res.result) {
         if (page === 0) {
             dispatch({

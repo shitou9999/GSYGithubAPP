@@ -1,0 +1,116 @@
+
+第三方的路由组件，目前的最新V4版本已经基于react-navigation实现
+包含了官方推荐react-navigation一些没有实现的功能，如：modal,refresh等。
+
+https://www.cnblogs.com/lemonzwt/p/8182345.html
+
+一、内容简介
+实现以下功能：
+1. 正向跳转
+2. 正向跳转并传值
+3. 反向跳转
+4. 反向跳转并传值
+5. 指定页面跳转
+6. 指定页面跳转并传值
+
+二、代码实现
+	key将用于标识页面，例如Actions.name(params)。必须是独一无二的
+1、正向跳转
+假设情景：从Home页跳转到Profile页面，Profile场景的key值为profile
+
+不带参数 Actions.profile
+带参数Actions.profile({'key':value})
+接收参数：
+this.props.KEY_NAME
+
+eg：
+通过TouchableOpacity的onPress方法实现页面的跳转
+
+onPress={Actions.proflis} // 不带参数的最简写法
+// 带参数的最简写法，传递的参数必须是Object类型，每个参数建议使用键值对方式传递
+onPress={() => {Actions.proflie({'key':value})}}
+this.props.key // 接收参数
+
+2、反向跳转
+假设情景：从Profile页返回Home页面
+
+返回上一页面，不带参数Actions.pop()
+返回上一页面，带参数Actions.pop({refresh:({’key‘:value})})
+指定回退页面数Actions.pop({popNum:2})
+指定回退页面数，带参数Actions.pop({popNum:2, refresh:({'key':value})})
+返回指定页面Actions.popTo('home')
+注释：
+
+refresh是框架自带函数，可用于刷新属性（props）
+Actions.pop({refresh:({'key':value})}) // 用于刷新回退到的页面的属性
+Actions.refresh(’params‘) // 用于刷新当前页面的属性对应回退页面刷新属性，即接受传递的参数
+接收参数：
+
+// 1. 必须在componentWillReceiveProps(nextProps)生命周期中接受传递的参数
+// 2. 该生命周期方法中的参数必须叫做nextProps
+// 3. 所有传递过来的参数都包含在nextProps参数中
+// 4. 以nextProps.PARAM_NAME的方式获取指定的参数
+componentWillReceiveProps(nextProps) {
+    // 假设前一个页面传递过来一个名字叫做isRefresh的布尔型参数
+    if(nextProps.isRefresh) {
+        // TODO 根据需求执行相关操作
+
+    }
+}
+
+
+//index.js
+import React, { Component } from 'react';
+import { Router, Scene } from 'react-native-router-flux';
+import PageOne from './PageOne';  //引入两个组件
+import PageTwo from './PageTwo';
+//用scene这个组件来包裹要导航的组件，initial表示默认加载的组件，
+//key的作用就是在路由中注册这个组件，后面要用到这个
+//某个组件就用它的key来代替它,component就是组件
+//这个组件自带navbar，title就是navbar的名字
+export default class App extends Component {
+  render() {
+    return (
+      <Router>
+        <Scene key="root">
+          <Scene key="pageOne" component={PageOne} title="PageOne" initial={true} />
+          <Scene key="pageTwo" component={PageTwo} title="PageTwo" />
+        </Scene>
+      </Router>
+    )
+  }
+}
+下面是两个组件的代码，两个组件之间相互跳转
+
+//PageOne.js 第一个组件
+
+import React, { Component } from 'react';
+import { View, Text } from 'react-native';
+import { Actions } from 'react-native-router-flux';
+//Actions.pageTwo就是根据pageTwo的key来进行导航
+
+export default class PageOne extends Component {
+  render() {
+    return (
+      <View style={{margin: 128}}>
+        <Text onPress={Actions.pageTwo}>This is PageOne!
+        //pageTwo中 Actions.PageOne就可以跳转到PageOne
+</Text>
+      </View>
+    )
+  }
+}
+如果要在导航中传递信息可以如下操作
+
+ render() {
+  const goToPageTwo = () => Actions.pageTwo({text: 'Hello World!'});
+  return (
+    <View style={{margin: 128}}>
+      <Text onPress={goToPageTwo}>This is PageOne!</Text>
+    </View>
+  )
+}
+//pageTwo可以通过props接受传递内容
+{this.props.text}
+这是简单的介绍，这个组件还可以完成tabview，modal,sidemenu等工作，相当的厉害。2600多颗星
+我把视频放上来，英语的，基本不影响，可以到youtube观看，有英文字母

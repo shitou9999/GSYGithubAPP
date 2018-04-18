@@ -1,11 +1,11 @@
 /**
  * Created by guoshuyu on 2017/11/11.
  */
-import React, {
-    Component,
-} from 'react'
+import React, {Component,} from 'react'
 import {
-    View, Text, TouchableOpacity
+    View,
+    Text,
+    TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from '../../style'
@@ -19,6 +19,7 @@ import resolveTime from '../../utils/timeUtil'
 
 /**
  * Push详情Header
+ * 仓库详情--动态--提交（item点击）--详情头部
  */
 class PushDetailHeader extends Component {
     constructor(props) {
@@ -35,19 +36,20 @@ class PushDetailHeader extends Component {
     render() {
         let {actionUser, actionUserPic, pushTime, pushDes} = this.props;
         return (
-            <View
-                style={[{
-                    marginTop: Constant.normalMarginEdge,
-                    marginLeft: Constant.normalMarginEdge,
-                    marginRight: Constant.normalMarginEdge,
-                    paddingHorizontal: Constant.normalMarginEdge,
-                    paddingTop: Constant.normalMarginEdge,
-                    borderRadius: 4,
-                }, styles.shadowCard, {backgroundColor: Constant.primaryColor}]}
-                onPress={() => {
-                    this.props.onPressItem && this.props.onPressItem();
-                }}>
+            <View style={[{
+                marginTop: Constant.normalMarginEdge,
+                marginLeft: Constant.normalMarginEdge,
+                marginRight: Constant.normalMarginEdge,
+                paddingHorizontal: Constant.normalMarginEdge,
+                paddingTop: Constant.normalMarginEdge,
+                borderRadius: 4,
+            }, styles.shadowCard, {backgroundColor: Constant.primaryColor}]}
+                  onPress={() => {
+                      this.props.onPressItem && this.props.onPressItem();
+                  }}>
+                {/*默认竖直布局*/}
                 <View style={[styles.flexDirectionRowNotFlex,]}>
+                    {/*头像*/}
                     <UserImage uri={actionUserPic}
                                loginUser={actionUser}
                                resizeMethod="scale"
@@ -57,8 +59,11 @@ class PushDetailHeader extends Component {
                                    borderRadius: Constant.bigIconSize / 2
                                }]}/>
                     <View style={{flex: 1, marginLeft: Constant.normalMarginEdge}}>
+                        {/*竖直*/}
                         <View
-                            style={[styles.flexDirectionRowNotFlex, styles.centerH, {marginVertical: Constant.normalMarginEdge / 2}]}>
+                            style={[styles.flexDirectionRowNotFlex,
+                                styles.centerH, {marginVertical: Constant.normalMarginEdge / 2}]}>
+                            {/*横向*/}
                             <Icon name={'edit'}
                                   backgroundColor={Constant.transparentColor}
                                   color={Constant.miWhite} size={13}
@@ -85,17 +90,17 @@ class PushDetailHeader extends Component {
                                 </Text>
                             </Icon>
                         </View>
-                        <View
-                            style={[styles.flexDirectionRowNotFlex, {
-                                marginBottom: Constant.normalMarginEdge,
-                                marginTop: Constant.normalMarginEdge / 2
-                            }]}>
+                        {/*几天前*/}
+                        <View style={[styles.flexDirectionRowNotFlex, {
+                            marginBottom: Constant.normalMarginEdge,
+                            marginTop: Constant.normalMarginEdge / 2
+                        }]}>
                             <Text style={[styles.miLightSmallText,]}>{resolveTime(pushTime)}</Text>
                         </View>
-                        <View
-                            style={[styles.flexDirectionRowNotFlex, {
-                                marginBottom: Constant.normalMarginEdge
-                            }]}>
+                        {/*描述*/}
+                        <View style={[styles.flexDirectionRowNotFlex, {
+                            marginBottom: Constant.normalMarginEdge
+                        }]}>
                             <Text style={[styles.miLightSmallText,]}
                                   selectable={true}>{pushDes}</Text>
                         </View>

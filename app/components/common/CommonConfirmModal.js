@@ -52,24 +52,24 @@ class CommonConfirmModal extends Component {
                    backdropOpacity={0.8}>
                 <View style={[styles.centered, {flex: 1,}]}>
                     <View style={[{borderRadius: 3, backgroundColor: Constant.white}, styles.centered]}>
+                        {/*标题*/}
                         <View style={[styles.flexDirectionRowNotFlex, {marginTop: 10, paddingBottom: 10},
                             {backgroundColor: Constant.white, width: width}, styles.centered]}>
                             <Text
                                 style={[styles.normalText, {fontWeight: 'bold'}]}>{this.props.titleText}</Text>
                         </View>
-                        <View style={[{
-                            marginHorizontal: Constant.normalMarginEdge,
-                        }]}>
+                        {/*内容*/}
+                        <View style={[{marginHorizontal: Constant.normalMarginEdge,}]}>
                             <Text
-                                style={[styles.normalText, {
-                                    padding: Constant.normalMarginEdge,
-                                }]}>{this.props.text}</Text>
+                                style={[styles.normalText, {padding: Constant.normalMarginEdge,}]}>{this.props.text}</Text>
                         </View>
+                        {/*按钮*/}
                         <View
                             style={[styles.flexDirectionRowNotFlex, {
                                 paddingVertical: Constant.normalMarginEdge,
                                 width: width
                             }]}>
+                            {/*取消*/}
                             <TouchableOpacity
                                 style={[styles.flex, styles.centerH, {borderBottomLeftRadius: 3,}]}
                                 onPress={() => {
@@ -77,6 +77,7 @@ class CommonConfirmModal extends Component {
                                 }}>
                                 <Text style={[styles.subNormalText, {fontWeight: 'bold'}]}>{I18n("cancel")}</Text>
                             </TouchableOpacity>
+                            {/*确定*/}
                             <TouchableOpacity
                                 style={[styles.flex, styles.centerH, {
                                     borderLeftWidth: 1,
@@ -100,8 +101,8 @@ class CommonConfirmModal extends Component {
 }
 
 CommonConfirmModal.propTypes = {
-    text: PropTypes.string,
     titleText: PropTypes.string,
+    text: PropTypes.string,
     textConfirm: PropTypes.func,
 };
 CommonConfirmModal.defaultProps = {

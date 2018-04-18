@@ -9,6 +9,7 @@ import IconC from 'react-native-vector-icons/Octicons'
 
 /**
  * 通用横向按键控件
+ * 动态详情 动态,提交,Pulse
  */
 class CommonBottomBar extends Component {
 

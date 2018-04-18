@@ -34,6 +34,7 @@ class RepositoryDetailActivityPage extends Component {
         this._renderRow = this._renderRow.bind(this);
         this._getBottomItem = this._getBottomItem.bind(this);
         this.page = 2;
+        //初始化一些状态 dataSource动态 dataSourceCommits提交
         this.state = {
             select: 0,
             pulseData: null,
@@ -59,6 +60,7 @@ class RepositoryDetailActivityPage extends Component {
 
     _renderRow(rowData, sectionID, rowID, highlightRow) {
         if (this.state.select === 0) {
+            //动态
             let res = getActionAndDes(rowData);
             let fullName = this.props.ownerName + "/" + this.props.repositoryName;
             return (
@@ -71,9 +73,9 @@ class RepositoryDetailActivityPage extends Component {
                         ActionUtils(rowData, fullName)
                     }}
                     actionTarget={res.actionStr}/>
-
             )
         } else if (this.state.select === 1) {
+            //提交
             return (
                 <EventItem
                     actionTime={rowData.commit.committer.date}
@@ -87,9 +89,9 @@ class RepositoryDetailActivityPage extends Component {
                         });
                     }}
                     actionTarget={rowData.commit.message}/>
-
             )
         } else if (this.state.select === 2) {
+            //Pulse
             let openStatus = this.state.pulseData.issueOpenStatus ? this.state.pulseData.issueOpenStatus : "";
             let closeStatus = this.state.pulseData.issueClosedStatus ? this.state.pulseData.issueClosedStatus : "";
             let statusText = openStatus + closeStatus;
@@ -111,6 +113,8 @@ class RepositoryDetailActivityPage extends Component {
             select = this.state.select;
         }
         if (select === 0) {
+            //动态   当.then()前的方法执行完后再执行then()内部的程序，这样就避免了，数据没获取到等的问题。
+            //当.then()前的方法执行完后再执行then()内部的程序，这样就避免了，数据没获取到等的问题。
             eventActions.getRepositoryEvent(0, this.props.ownerName, this.props.repositoryName)
                 .then((res) => {
                     if (res && res.result) {
@@ -136,6 +140,7 @@ class RepositoryDetailActivityPage extends Component {
                     }
                 })
         } else if (select === 1) {
+            //提交
             reposActions.getReposCommits(0, this.props.ownerName, this.props.repositoryName)
                 .then((res) => {
                     if (res && res.result) {
@@ -160,31 +165,33 @@ class RepositoryDetailActivityPage extends Component {
                         this.refs.pullList.refreshComplete((size >= Config.PAGE_SIZE), true);
                     }
                 })
-
         } else if (select === 2) {
+            //Pulse
             if (this.state.pulseData) {
                 if (this.refs.pullList) {
                     this.refs.pullList.refreshComplete(false);
                 }
                 return
             }
-            reposActions.getPulse(this.props.ownerName, this.props.repositoryName).then((res) => {
-                if (res && res.result) {
-                    this.setState({
-                        pulseData: res.data
-                    })
-                }
-                return res.next()
-            }).then((res) => {
-                if (res && res.result) {
-                    this.setState({
-                        pulseData: res.data
-                    })
-                }
-                if (this.refs.pullList) {
-                    this.refs.pullList.refreshComplete(false);
-                }
-            });
+            reposActions.getPulse(this.props.ownerName, this.props.repositoryName)
+                .then((res) => {
+                    if (res && res.result) {
+                        this.setState({
+                            pulseData: res.data
+                        })
+                    }
+                    return res.next()
+                })
+                .then((res) => {
+                    if (res && res.result) {
+                        this.setState({
+                            pulseData: res.data
+                        })
+                    }
+                    if (this.refs.pullList) {
+                        this.refs.pullList.refreshComplete(false);
+                    }
+                });
         }
     }
 
@@ -193,21 +200,24 @@ class RepositoryDetailActivityPage extends Component {
      * */
     _loadMore() {
         if (this.state.select === 0) {
-            eventActions.getRepositoryEvent(this.page, this.props.ownerName, this.props.repositoryName).then((res) => {
-                let size = 0;
-                if (res && res.result) {
-                    this.page++;
-                    let dataList = this.state.dataSource.concat(res.data);
-                    this.setState({
-                        dataSource: dataList
-                    });
-                    size = res.data.length;
-                }
-                if (this.refs.pullList) {
-                    this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
-                }
-            })
+            //动态
+            eventActions.getRepositoryEvent(this.page, this.props.ownerName, this.props.repositoryName)
+                .then((res) => {
+                    let size = 0;
+                    if (res && res.result) {
+                        this.page++;
+                        let dataList = this.state.dataSource.concat(res.data);
+                        this.setState({
+                            dataSource: dataList
+                        });
+                        size = res.data.length;
+                    }
+                    if (this.refs.pullList) {
+                        this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
+                    }
+                })
         } else if (this.state.select === 1) {
+            //提交
             reposActions.getReposCommits(this.page, this.props.ownerName, this.props.repositoryName).then((res) => {
                 let size = 0;
                 if (res && res.result) {
@@ -222,15 +232,17 @@ class RepositoryDetailActivityPage extends Component {
                     this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
                 }
             })
-
         } else if (this.state.select === 2) {
+            //Pulse
             if (this.refs.pullList) {
                 this.refs.pullList.loadMoreComplete(false);
             }
         }
     }
 
+    //
     _getBottomItem() {
+        //从组件中获取选择状态
         let {select} = this.state;
         return [{
             itemName: I18n("reposActivity"),
@@ -253,9 +265,7 @@ class RepositoryDetailActivityPage extends Component {
                     select: 1,
                 });
                 this._refresh(1);
-            }, itemStyle: {
-                borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: Constant.lineColor,
-            }
+            }, itemStyle: {borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: Constant.lineColor,}
         }, {
             itemName: 'Pulse',
             itemTextColor: select === 2 ? Constant.white : Constant.subTextColor,
@@ -266,9 +276,7 @@ class RepositoryDetailActivityPage extends Component {
                     select: 2,
                 });
                 this._refresh(2);
-            }, itemStyle: {
-                borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: Constant.lineColor,
-            }
+            }, itemStyle: {borderLeftWidth: StyleSheet.hairlineWidth, borderLeftColor: Constant.lineColor,}
         },]
     }
 
@@ -281,6 +289,7 @@ class RepositoryDetailActivityPage extends Component {
         let data = this.state.select === 0 ? this.state.dataSource : this.state.dataSourceCommits;
         let header =
             <View>
+                {/*动态区域头部显示组件*/}
                 <RepositoryHeader
                     ownerName={this.props.ownerName}
                     ownerPic={owner ? owner.avatar_url : ""}
@@ -301,6 +310,7 @@ class RepositoryDetailActivityPage extends Component {
                     created_at={resolveTime(created_at)}
                     push_at={resolveTime(pushed_at)}
                 />
+                {/*通用横向按键控件*/}
                 <CommonBottomBar
                     rootStyles={{
                         marginHorizontal: Constant.normalMarginEdge,

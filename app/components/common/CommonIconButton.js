@@ -66,10 +66,7 @@ class CommonIconButton extends Component {
         }
         return (
             <TouchableOpacity
-                style={[styles.centered, {
-                    marginRight: Constant.normalMarginEdge,
-                    paddingLeft: 20
-                }]}
+                style={[styles.centered, {marginRight: Constant.normalMarginEdge, paddingLeft: 20}]}
                 onPress={() => {
                     this.local.rightBtnPress && this.local.rightBtnPress(this.local);
                 }}>

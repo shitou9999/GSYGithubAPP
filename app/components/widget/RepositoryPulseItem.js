@@ -28,8 +28,10 @@ import TagGroup from "./TagGroup";
 
 /**
  * 仓库PulseItem显示
+ * 详情中动态的Pulse
  */
 class RepositoryPulseItem extends Component {
+
     constructor(props) {
         super(props)
     }
@@ -38,18 +40,11 @@ class RepositoryPulseItem extends Component {
     }
 
     componentWillUnmount() {
-
     }
 
     render() {
-
-        let bottomIconStyle = {
-            backgroundColor: Constant.transparentColor,
-            size: 22,
-        };
-
+        let bottomIconStyle = {backgroundColor: Constant.transparentColor, size: 22,};
         let {opened, closed, infoText, statusText} = this.props;
-
         return (
             <View style={[{
                 backgroundColor: Constant.primaryColor,
@@ -57,11 +52,14 @@ class RepositoryPulseItem extends Component {
                 margin: Constant.normalMarginEdge,
                 borderRadius: 4
             }, styles.shadowCard]}>
+                {/*采用默认的竖直排列布局*/}
+                {/*竖直01*/}
                 <View style={[styles.flexDirectionRowNotFlex, {
                     borderColor: Constant.lineColor, borderBottomWidth: StyleSheet.hairlineWidth,
                     paddingBottom: Constant.normalMarginEdge * 2,
                     paddingTop: Constant.normalMarginEdge,
                 }]}>
+                    {/*row布局*/}
                     <View
                         style={[styles.flexDirectionRow, styles.centered,
                             {borderColor: Constant.lineColor, borderRightWidth: StyleSheet.hairlineWidth}
@@ -71,17 +69,17 @@ class RepositoryPulseItem extends Component {
                         <Text
                             style={[styles.smallText, styles.shadowText, {marginLeft: 5}]}>{I18n("weekClosed") + closed}</Text>
                     </View>
-                    <View
-                        style={[styles.flexDirectionRow, styles.centered]}
-                    >
+                    <View style={[styles.flexDirectionRow, styles.centered]}>
                         <IconC name="issue-opened" {...bottomIconStyle} color={"green"}>
                         </IconC>
                         <Text
                             style={[styles.smallText, styles.shadowText, {marginLeft: 5}]}>{I18n("weekOpened") + opened}</Text>
                     </View>
                 </View>
+                {/*竖直02*/}
                 <Text
                     style={[styles.normalText, styles.shadowText, {marginTop: Constant.normalMarginEdge}]}>{I18n("thisWeek")}</Text>
+                {/*竖直03*/}
                 <HTMLView
                     style={[{
                         backgroundColor: Constant.transparentColor,
@@ -91,10 +89,7 @@ class RepositoryPulseItem extends Component {
                     }]}
                     numberOfLines={100}
                     value={statusText + infoText}
-                    textComponentProps={{
-                        style: styles.subSmallText,
-                        numberOfLines: 100,
-                    }}
+                    textComponentProps={{style: styles.subSmallText, numberOfLines: 100,}}
                     selectable={true}
                     textComponent={() => {
                         return (

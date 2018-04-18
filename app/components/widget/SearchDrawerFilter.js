@@ -1,12 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {StyleSheet, Text, View, ViewPropTypes,} from 'react-native';
+import PropTypes from 'prop-types';
 import {Router, Actions, Scene} from 'react-native-router-flux';
 import styles, {statusHeight, drawerWidth} from "../../style"
 import * as Constant from '../../style/constant'
 import {SortType, SearchFilterType, SearchLanguageType} from '../../utils/filterUtils'
 import SelectList from './SearchFilterSelectList'
-
+/**
+ *
+ */
 class SearchDrawerFilter extends React.Component {
     static propTypes = {
         name: PropTypes.string,
@@ -20,9 +22,7 @@ class SearchDrawerFilter extends React.Component {
 
     render() {
         return (
-            <View style={[styles.flex, {
-                backgroundColor: 'transparent',
-            }]}>
+            <View style={[styles.flex, {backgroundColor: 'transparent',}]}>
                 <View style={{backgroundColor: "#F0000000", height: statusHeight, width: drawerWidth}}>
                     <View
                         style={{backgroundColor: Constant.primaryDarkColor, height: statusHeight, width: drawerWidth}}/>
@@ -47,7 +47,6 @@ class SearchDrawerFilter extends React.Component {
                                 Actions.pop({refresh: {selectSortData: data}});
                                 break;
                         }
-
                     }}
                 />
             </View>

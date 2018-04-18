@@ -21,7 +21,8 @@ import {isCommentOwner} from '../utils/issueUtils'
 import Toast from "./common/ToastProxy";
 
 /**
- * Issue详情
+ * Issue列表点击的详情
+ * 底部是列表显示
  */
 class IssueDetailPage extends Component {
 
@@ -81,30 +82,32 @@ class IssueDetailPage extends Component {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
-        issueActions.addIssueComment(userName, repositoryName, issue.number, text).then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result) {
-                    let dataList = this.state.dataSource;
-                    dataList.push(res.data);
-                    this.setState({
-                        dataSource: dataList
-                    })
-                } else {
-                    Actions.TextInputModal({
-                        needEditTitle: false,
-                        textConfirm: this.sendIssueComment,
-                        text: text,
-                        titleText: I18n('commentsIssue'),
-                        bottomBar: true,
-                        userList: [...this.actionUser.values()]
-                    })
-                }
-            }, 500);
-        });
+        issueActions.addIssueComment(userName, repositoryName, issue.number, text)
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result) {
+                        let dataList = this.state.dataSource;
+                        dataList.push(res.data);
+                        this.setState({
+                            dataSource: dataList
+                        })
+                    } else {
+                        Actions.TextInputModal({
+                            needEditTitle: false,
+                            textConfirm: this.sendIssueComment,
+                            text: text,
+                            titleText: I18n('commentsIssue'),
+                            bottomBar: true,
+                            userList: [...this.actionUser.values()]
+                        })
+                    }
+                }, 500);
+            });
 
     }
 
+    //编辑issue事件
     editIssue(text, title) {
         if (!title || title.length === 0) {
             return
@@ -112,109 +115,115 @@ class IssueDetailPage extends Component {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
-        issueActions.editIssue(userName, repositoryName, issue.number,
-            {title: title, body: text}).then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result) {
-                    this.setState({
-                        issue: res.data
-                    })
-                } else {
-                    Actions.TextInputModal({
-                        textConfirm: this.editIssue,
-                        titleText: I18n('editIssue'),
-                        needEditTitle: true,
-                        text: text,
-                        titleValue: title,
-                        bottomBar: true,
-                        userList: [...this.actionUser.values()]
-                    })
-                }
-            }, 500);
-        })
+        issueActions.editIssue(userName, repositoryName, issue.number, {title: title, body: text})
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result) {
+                        this.setState({
+                            issue: res.data
+                        })
+                    } else {
+                        Actions.TextInputModal({
+                            textConfirm: this.editIssue,
+                            titleText: I18n('editIssue'),
+                            needEditTitle: true,
+                            text: text,
+                            titleValue: title,
+                            bottomBar: true,
+                            userList: [...this.actionUser.values()]
+                        })
+                    }
+                }, 500);
+            })
     }
 
+    //编辑评论事件
     editComment(commentId, text, rowID) {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
-        issueActions.editComment(userName, repositoryName, issue.number, commentId,
-            {body: text}).then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result) {
-                    let dataList = this.state.dataSource;
-                    dataList.splice(parseInt(rowID), 1, res.data);
-                    this.setState({
-                        dataSource: dataList
-                    })
-                } else {
-                    Actions.TextInputModal({
-                        textConfirm: (text) => {
-                            this.editComment(commentId, text, rowID)
-                        },
-                        titleText: I18n('editIssue'),
-                        needEditTitle: false,
-                        text: text,
-                        bottomBar: true,
-                        userList: [...this.actionUser.values()]
-                    })
-                }
-            }, 500);
-        })
+        issueActions.editComment(userName, repositoryName, issue.number, commentId, {body: text})
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result) {
+                        let dataList = this.state.dataSource;
+                        dataList.splice(parseInt(rowID), 1, res.data);
+                        this.setState({
+                            dataSource: dataList
+                        })
+                    } else {
+                        Actions.TextInputModal({
+                            textConfirm: (text) => {
+                                this.editComment(commentId, text, rowID)
+                            },
+                            titleText: I18n('editIssue'),
+                            needEditTitle: false,
+                            text: text,
+                            bottomBar: true,
+                            userList: [...this.actionUser.values()]
+                        })
+                    }
+                }, 500);
+            })
     }
 
+    //删除事件
     deleteComment(commentId, rowID) {
         let {repositoryName, userName} = this.props;
         let {number} = this.state.issue;
         Actions.LoadingModal({backExit: false});
-        issueActions.editComment(userName, repositoryName, number, commentId, null, 'delete').then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result) {
-                    let dataList = this.state.dataSource;
-                    dataList.splice(parseInt(rowID), 1);
-                    this.setState({
-                        dataSource: dataList
-                    })
-                }
-            }, 500);
-        })
+        issueActions.editComment(userName, repositoryName, number, commentId, null, 'delete')
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result) {
+                        let dataList = this.state.dataSource;
+                        dataList.splice(parseInt(rowID), 1);
+                        this.setState({
+                            dataSource: dataList
+                        })
+                    }
+                }, 500);
+            })
     }
 
+    //关闭或打开issue事件
     closeIssue() {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
         issueActions.editIssue(userName, repositoryName, issue.number,
-            {state: (issue.state === "closed") ? 'open' : 'closed'}).then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result) {
-                    this.setState({
-                        issue: res.data
-                    })
-                }
-            }, 500);
-        })
+            {state: (issue.state === "closed") ? 'open' : 'closed'})
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result) {
+                        this.setState({
+                            issue: res.data
+                        })
+                    }
+                }, 500);
+            })
     }
 
-
+    //锁定事件
     lockedIssue() {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
-        issueActions.lockIssue(userName, repositoryName, issue.number, issue.locked).then((res) => {
-            setTimeout(() => {
-                Actions.pop();
-                if (res && res.result && res.data) {
-                    this.setState({
-                        issue: res.data
-                    })
-                }
-            }, 500);
-        })
+        issueActions.lockIssue(userName, repositoryName, issue.number, issue.locked)
+            .then((res) => {
+                setTimeout(() => {
+                    Actions.pop();
+                    if (res && res.result && res.data) {
+                        this.setState({
+                            issue: res.data
+                        })
+                    }
+                }, 500);
+            })
     }
 
     /**
@@ -302,7 +311,7 @@ class IssueDetailPage extends Component {
         });
     }
 
-
+    //底部的 回复 编辑 打开 锁定
     _getBottomItem() {
         let {issue} = this.state;
         return [{
@@ -336,6 +345,7 @@ class IssueDetailPage extends Component {
         }, {
             itemName: (issue.state === "open") ? I18n('issueClose') : I18n('issueOpen'),
             itemClick: () => {
+                //关闭或打开issue
                 Actions.ConfirmModal({
                     titleText: (issue.state === "open") ? I18n('closeIssue') : I18n('openIssue'),
                     text: (issue.state === "open") ? I18n('closeIssueTip') : I18n('openIssueTip'),
@@ -347,6 +357,7 @@ class IssueDetailPage extends Component {
         }, {
             itemName: (issue.locked) ? I18n('issueUnlock') : I18n('issueLocked'),
             itemClick: () => {
+                //锁定弹窗
                 Actions.ConfirmModal({
                     titleText: (issue.locked) ? I18n('issueUnlock') : I18n('issueLocked'),
                     text: (issue.locked) ? I18n('lockIssueTip') : I18n('unLockIssueTip'),
@@ -395,9 +406,8 @@ class IssueDetailPage extends Component {
 
     render() {
         let {issue} = this.state;
-        let bottomBar = (issue) ?
-            <CommonBottomBar dataList={this._getBottomItem()}/> :
-            <View/>;
+        //底部的 回复 编辑 打开 锁定
+        let bottomBar = (issue) ? <CommonBottomBar dataList={this._getBottomItem()}/> : <View/>;
         let header =
             <IssueHead
                 actionTime={issue.created_at}

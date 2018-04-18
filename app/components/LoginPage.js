@@ -17,9 +17,11 @@ import styles, {screenHeight, screenWidth} from "../style"
 import * as Constant from "../style/constant"
 import PropTypes from 'prop-types';
 import I18n from '../style/i18n'
+
 import loginActions from '../store/actions/login'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+
 import Modal from 'react-native-modalbox';
 import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -56,7 +58,7 @@ class LoginPage extends Component {
 
     componentDidMount() {
         this.onOpen();
-        this.handle = BackHandler.addEventListener('hardwareBackPress-LoginPage', this.onClose)
+        this.handle = BackHandler.addEventListener('hardwareBackPress-LoginPage', this.onClose);
         Animated.timing(this.state.opacity, {
             duration: animaTime,
             toValue: 1,
@@ -69,8 +71,9 @@ class LoginPage extends Component {
         }
     }
 
-
+    //获取当前登录用户的参数
     onOpen() {
+        //then()方法是异步执行!!!!就是当.then()前的方法执行完后再执行then()内部的程序,,
         loginActions.getLoginParams().then((res) => {
             this.setState({
                 saveUserName: res.userName,
@@ -123,6 +126,7 @@ class LoginPage extends Component {
         });
         Actions.LoadingModal({backExit: false});
         Keyboard.dismiss();
+        //登陆
         login.doLogin(this.params.userName, this.params.password, (res) => {
             this.exitLoading();
             if (!res) {
@@ -237,6 +241,16 @@ class LoginPage extends Component {
         )
     }
 }
+//connect是真正的重点，意思是先接受两个参数
+// （数据绑定mapStateToProps和事件绑定mapDispatchToProps），再接受一个参数（将要绑定的组件本身）
+
+// Redux中的bindActionCreators，是通过dispatch将action包裹起来，
+// 这样可以通过bindActionCreators创建的方法，直接调用dispatch(action)(隐式调用）。
+
+// 主要用处：一般情况下，我们可以通过Provider将store通过React的connext属性向下传递，
+// bindActionCreators的唯一用处就是需要传递action creater到子组件，并且改子组件并没
+// 有接收到父组件上传递的store和dispatch。
+
 
 export default connect(state => ({state}), dispatch => ({
         login: bindActionCreators(loginActions, dispatch)

@@ -26,6 +26,18 @@ import * as Config from '../config'
  * 搜索
  */
 class SearchPage extends Component {
+//组件的成员变量、静态变量、静态函数
+    //与本组件显示有关的变量存放在状态机state变量中
+    //父组件传递下来的属性存放在属性变量props中
+    //与组件逻辑控制相关但与组件显示无关的变量，，可以将其保存在成员变量或静态变量中
+
+    //注意访问静态变量或静态函数，直接以“类名.变量名（函数名）”的方式访问。
+    // 不能以“this.变量名（函数名）”的方式访问
+    static staticObject = "sss";  //定义类的静态成员变量
+
+    static staticMethod () {  //定义类的静态成员函数
+        console.log("s");
+    }
 
     constructor(props) {
         super(props);
@@ -34,7 +46,7 @@ class SearchPage extends Component {
         this._refresh = this._refresh.bind(this);
         this._loadMore = this._loadMore.bind(this);
         this._getBottomItem = this._getBottomItem.bind(this);
-        this.searchText = "";
+        this.searchText = "";//成员变量
         this.page = 2;
         this.selectTypeData = null;
         this.selectSortData = null;
@@ -72,6 +84,7 @@ class SearchPage extends Component {
         }
     }
 
+    //输入内容改变
     _searchTextChange(text) {
         this.searchText = text;
     }
@@ -201,6 +214,12 @@ class SearchPage extends Component {
         },]
     }
 
+    //onChange：当文本发生变化时，调用该函数。
+    // 它的回调接收一个 event 参数，通过 event.nativeEvent.text 可以获取用户输入的字符串
+    //onChangeText 当文本发生变化时，调用该函数
+    //onChangeText 回调函数与上面的 onChange 类似，但它的好处是直接可以接收用户输入的字符串
+    //onSubmitEditing：当结束编辑后，点击键盘的提交按钮触发该事件
+    //它的回调接收一个 event 参数，通过 event.nativeEvent.text 可以获取用户输入的字符串
     render() {
         return (
             <View style={styles.mainBox}>
@@ -212,6 +231,7 @@ class SearchPage extends Component {
                     height: 40,
                     paddingVertical: Constant.normalMarginEdge / 3,
                 }]}>
+                    {/*输入框 */}
                     <TextInput
                         onChangeText={(text) => {
                             this._searchTextChange(text)
@@ -220,6 +240,7 @@ class SearchPage extends Component {
                         returnKeyType={'search'}
                         returnKeyLabel={'search'}
                         onSubmitEditing={(event) => {
+                            //event.nativeEvent.text 可以获取用户输入的字符串
                             this.searchText = event.nativeEvent.text;
                             this._refresh()
                         }}
@@ -232,7 +253,7 @@ class SearchPage extends Component {
                             borderRadius: 3,
                             backgroundColor: Constant.subLightTextColor,
                         }, styles.flex]}/>
-
+                    {/*搜索按钮*/}
                     <TouchableOpacity
                         style={[styles.centered, {marginTop: 2, marginHorizontal: Constant.normalMarginEdge}]}
                         onPress={() => {

@@ -2,14 +2,12 @@
  * Created by guoshuyu on 2017/11/8.
  */
 
-
 import {NetInfo, Platform, AsyncStorage} from 'react-native';
 import I18n from '../style/i18n'
 import * as Constant from '../style/constant'
 import * as Code from './netwrokCode'
 import handlerError from './netwrokCode'
 import {NativeModules, DeviceEventEmitter} from 'react-native';
-
 
 export const CONTENT_TYPE_JSON = "application/json";
 export const CONTENT_TYPE_FORM = "application/x-www-form-urlencoded";
@@ -26,7 +24,6 @@ class HttpManager {
 
     /**
      * get请求
-     *
      * @param url 请求url
      * @param header 外加头
      * @return {Promise.<*>}
@@ -46,7 +43,7 @@ class HttpManager {
      */
     async netFetch(url, method = 'GET', params, json, header) {
         let isConnected = await NetInfo.isConnected.fetch().done;
-
+        //网络错误
         if (!isConnected) {
             return {
                 result: false,
@@ -54,7 +51,9 @@ class HttpManager {
                 msg: I18n('netError')
             }
         }
-
+        //Object.assign()方法---->特点：浅拷贝、对象属性的合并
+        //var nObj = Object.assign({},obj,obj1);//花括号叫目标对象，后面的obj、obj1是源对象。
+        // 对象合并是指：将源对象里面的属性添加到目标对象中去，若两者的属性名有冲突，后面的将会覆盖前面的
         let headers = {};
         if (header) {
             headers = Object.assign({}, headers, header)
@@ -62,6 +61,7 @@ class HttpManager {
 
         //授权码
         if (!this.optionParams.authorizationCode) {
+            //获取授权token
             let authorizationCode = await this.getAuthorization();
             if (authorizationCode)
                 this.optionParams.authorizationCode = authorizationCode;
@@ -72,15 +72,18 @@ class HttpManager {
         headers.Authorization = this.optionParams.authorizationCode;
 
         if (method !== 'GET') {
+            //非get方法
             if (json) {
                 requestParams = this.formParamsJson(method, params, headers)
             } else {
                 requestParams = this.formParams(method, params, headers)
             }
         } else {
+            //get方法
             requestParams = this.formParams(method, params, headers)
         }
 
+        //超时管理
         let response = await this.requestWithTimeout(this.optionParams.timeoutMs, fetch(url, requestParams));
 
         if (__DEV__) {
@@ -90,6 +93,7 @@ class HttpManager {
         }
 
         if (response && response.status === Code.NETWORK_TIMEOUT) {
+            //网络超时
             return {
                 result: false,
                 code: response.status,
@@ -104,6 +108,7 @@ class HttpManager {
             }
 
             if (response.status === 200 || response.status === 201) {
+                //请求成功
                 return {
                     result: true,
                     code: Code.SUCCESS,

@@ -21,7 +21,6 @@ class BottomPopmenuItem extends Component {
     }
 
     componentDidMount() {
-
     }
 
     componentWillUnmount() {

@@ -6,7 +6,7 @@ const initialState = {
     trend_repos_data_list: [],
     trend_repos_current_size: 0,
 };
-
+//趋势数据
 const actionHandler = {
     [REPOSITORY.TREND_REPOSITORY]: (state, action) => {
         return {

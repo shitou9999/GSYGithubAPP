@@ -18,6 +18,7 @@ const {dispatch, getState} = store;
  */
 const initUserInfo = async () => {
     let token = await AsyncStorage.getItem(Constant.TOKEN_KEY);
+    //获取本地登录用户信息
     let res = await UserDao.getUserInfoLocal();
     if (res && res.result && token) {
         dispatch({
@@ -36,7 +37,9 @@ const initUserInfo = async () => {
  * 获取登录用户信息
  */
 const getUserInfo = async () => {
+    //获取用户详细信息
     let res = await UserDao.getUserInfoDao();
+    //进一步再获取
     let resData = await res.next();
     if (resData && resData.result) {
         dispatch({
@@ -70,6 +73,7 @@ const clearUserInfo = () => {
  */
 const getFollowerList = async (userName, page = 1) => {
     if (page <= 1) {
+        //localNeed是否去数据库中的
         return UserDao.getFollowerListDao(userName, page, true);
     } else {
         return UserDao.getFollowerListDao(userName, page)

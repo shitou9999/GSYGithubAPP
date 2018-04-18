@@ -17,13 +17,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
  * 自定义返回按键
  */
 class BackButton extends Component {
+
     componentDidMount() {
     }
 
     componentWillUnmount() {
 
     }
-
 
     render() {
         if (Actions.state.routes[0].index === 0 || this.props.hideBackButton) {
@@ -42,6 +42,7 @@ class BackButton extends Component {
 BackButton.propTypes = {
     hideBackButton: PropTypes.bool
 };
+
 BackButton.defaultProps = {
     hideBackButton: false
 };

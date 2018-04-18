@@ -39,13 +39,17 @@ class NotifyPage extends Component {
         }
     }
 
+    //在该方法中，React会使用render方法返回的虚拟DOM对象创建真实的DOM结构，可以在这个方法中获取DOM节点
     componentDidMount() {
     }
 
+    //组件将要被挂载
     componentWillUnmount() {
+        //？？？？？？？？？？？？
         this.props.backNotifyCall && this.props.backNotifyCall()
     }
 
+    //已加载组件收到新的props之前调用,注意组件初始化渲染时则不会执行
     componentWillReceiveProps(newProps) {
         if (newProps && newProps.type === "allRead") {
             newProps.type = "";
@@ -54,6 +58,7 @@ class NotifyPage extends Component {
     }
 
     _refresh() {
+        //获得当前的组件
         if (this.unReadList)
             this.unReadList._refresh();
         if (this.partList)
@@ -66,6 +71,7 @@ class NotifyPage extends Component {
 
 
     _asRead(id) {
+        //设置单个通知已读
         userActions.setNotificationAsRead(id).then(() => {
             this._refresh();
         })
@@ -78,11 +84,12 @@ class NotifyPage extends Component {
                 indicatorStyle={{backgroundColor: Constant.miWhite}}
         />;
 
-    _renderScene = ({route}) => {
+        _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
                 return (
                     <ListPage
+                        {/*当组件被渲染后，ref属性ref就有值啦，然后我们将它赋值给this.unReadList*/}
                         ref={(ref) => {
                             this.unReadList = ref;
                         }}
@@ -132,9 +139,7 @@ class NotifyPage extends Component {
             <View style={styles.mainBox}>
                 <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
                 <TabViewAnimated
-                    style={{
-                        flex: 1,
-                    }}
+                    style={{flex: 1,}}
                     lazy={true}
                     swipeEnabled={false}
                     navigationState={this.state}

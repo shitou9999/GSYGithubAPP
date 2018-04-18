@@ -1,9 +1,7 @@
 /**
  * Created by guoshuyu on 2017/11/11.
  */
-import React, {
-    Component,
-} from 'react'
+import React, {Component} from 'react'
 import {
     View, Text, Image, TouchableOpacity
 } from 'react-native';
@@ -59,7 +57,7 @@ class ReleaseItem extends Component {
                     padding: Constant.normalMarginEdge,
                     borderRadius: 4,
                 }, styles.shadowCard]}
-                onLongPress={()=>{
+                onLongPress={() => {
                     this.props.onLongPressItem && this.props.onLongPressItem();
                 }}
                 onPress={() => {
@@ -67,15 +65,11 @@ class ReleaseItem extends Component {
                 }}>
                 <View style={[styles.flexDirectionRowNotFlex,]}>
                     <View style={[styles.flex, styles.centerH, styles.flexDirectionRowNotFlex]}>
-                        <Text style={[styles.flex, styles.smallText, {
-                            fontWeight: "bold",
-                            marginLeft: Constant.normalMarginEdge / 2
-                        }]}>
+                        <Text style={[styles.flex, styles.smallText,
+                            {fontWeight: "bold", marginLeft: Constant.normalMarginEdge / 2}]}>
                             {actionTitle}
                         </Text>
-                        <TimeText style={[styles.subSmallText,
-                            {marginTop: -20}]}
-                                  time={actionTime}/>
+                        <TimeText style={[styles.subSmallText, {marginTop: -20}]} time={actionTime}/>
                     </View>
                 </View>
                 {body}

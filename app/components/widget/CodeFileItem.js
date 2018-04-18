@@ -1,9 +1,7 @@
 /**
  * Created by guoshuyu on 2017/11/11.
  */
-import React, {
-    Component,
-} from 'react';
+import React, {Component,} from 'react';
 import PropTypes from 'prop-types';
 import {
     Text,
@@ -13,7 +11,6 @@ import {
     Dimensions,
     StyleSheet
 } from 'react-native';
-
 import * as Constant from '../../style/constant'
 import styles from '../../style'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -21,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 
 /**
  * 代码通用Item
+ * 和代码相关item
  */
 class CodeFileItem extends Component {
     constructor(props) {
@@ -31,7 +29,6 @@ class CodeFileItem extends Component {
     }
 
     componentWillUnmount() {
-
     }
 
     render() {
@@ -43,12 +40,9 @@ class CodeFileItem extends Component {
     render() {
         let {onClickFun, itemText, titleStyle, textStyle, itemIcon, itemTextTitle, needTitle} = this.props;
         let leftIcon = (itemIcon) ?
-            <Icon name={itemIcon} size={14} color={Constant.subTextColor}/>
-            : <View/>;
+            <Icon name={itemIcon} size={14} color={Constant.subTextColor}/> : <View/>;
         let title = (needTitle) ?
-            <View style={[styles.flexDirectionRow, styles.centerH, {
-                marginTop: Constant.normalMarginEdge
-            }]}>
+            <View style={[styles.flexDirectionRow, styles.centerH, {marginTop: Constant.normalMarginEdge}]}>
                 <Text style={[{flex: 1}, ...titleStyle]}>{itemTextTitle}</Text>
             </View> : <View/>;
         return (
@@ -56,9 +50,7 @@ class CodeFileItem extends Component {
                 onPress={() => {
                     onClickFun && onClickFun()
                 }}
-                style={[{
-                    marginHorizontal: Constant.normalMarginEdge,
-                }, ...this.props.viewStyle]}>
+                style={[{marginHorizontal: Constant.normalMarginEdge,}, ...this.props.viewStyle]}>
                 {title}
                 <View
                     style={[styles.flexDirectionRow, styles.centerH, styles.shadowCard, {

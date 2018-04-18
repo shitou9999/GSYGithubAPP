@@ -17,9 +17,7 @@ class CommonNameValueItem extends Component {
 
     render() {
         let halfEdge = Constant.normalMarginEdge / 2;
-        let bottomTopTextStyle = [styles.subSmallText, {
-            marginTop: halfEdge
-        },];
+        let bottomTopTextStyle = [styles.subSmallText, {marginTop: halfEdge},];
         let bottomBottomTextStyle = [styles.subLightSmallText, {marginVertical: halfEdge}];
         return (
             <TouchableOpacity style={[...this.props.itemStyle]} onPress={() => {

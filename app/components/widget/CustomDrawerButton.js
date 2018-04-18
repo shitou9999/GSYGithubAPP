@@ -24,7 +24,6 @@ class CustomDrawerButton extends Component {
 
     }
 
-
     render() {
         return (
             <View style={[styles.centered, {

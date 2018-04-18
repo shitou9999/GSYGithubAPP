@@ -20,6 +20,7 @@ import {generateCode2HTml, parseDiffSource} from "../utils/htmlUtils";
 
 /**
  * 仓库提交推送详情
+ * 动态---提交----item详情
  */
 class PushDetailPage extends Component {
 
@@ -57,8 +58,10 @@ class PushDetailPage extends Component {
                 onClickFun={() => {
                     let patch = rowData.patch;
                     if (!patch) {
+                        //预览文件失败，可能文件类型不支持预览。
                         patch = I18n("fileNotSupport")
                     }
+                    //代码item点击查看详情
                     Actions.CodeDetailPage({
                         title: nameSplit[nameSplit.length - 1],
                         ownerName: this.props.userName,
@@ -79,6 +82,7 @@ class PushDetailPage extends Component {
      * */
     _refresh() {
         let {sha} = this.props;
+        //获取仓库的单个提交详情
         reposActions.getReposCommitsInfo(this.props.userName, this.props.repositoryName, sha)
             .then((res) => {
                 if (res && res.result) {
