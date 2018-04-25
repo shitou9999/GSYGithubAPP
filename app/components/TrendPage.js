@@ -107,8 +107,7 @@ class TrendPage extends Component {
                         itemHeight={filterItemHeight}
                         style={pickerViewStyle}
                         textStyle={pickerTextStyle}
-                        dropdownStyle={[...dropDownStyle,
-                            {height: filterItemHeight * TrendTime.length}]}
+                        dropdownStyle={[...dropDownStyle, {height: filterItemHeight * TrendTime.length}]}
                         options={TrendTime}
                         onSelect={(rowID, rowData) => {
                             this.timeLine = rowData.value;
@@ -122,8 +121,7 @@ class TrendPage extends Component {
                         itemHeight={filterItemHeight}
                         style={pickerViewStyle}
                         textStyle={pickerTextStyle}
-                        dropdownStyle={[...dropDownStyle,
-                            {height: filterItemHeight * TrendType.length}]}
+                        dropdownStyle={[...dropDownStyle, {height: filterItemHeight * TrendType.length}]}
                         options={TrendType}
                         onSelect={(rowID, rowData) => {
                             this.languageType = rowData.value;

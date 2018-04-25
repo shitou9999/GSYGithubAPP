@@ -111,7 +111,9 @@ class LoginPage extends Component {
     }
 
     toLogin() {
+        ///////////////////////////////////
         let {login} = this.props;
+
         if (!this.params.userName || this.params.userName.length === 0) {
             Toast(I18n('LoginNameTip'));
             return
@@ -241,6 +243,11 @@ class LoginPage extends Component {
         )
     }
 }
+
+// Action 是把数据从应用（译者注：这里之所以不叫 view 是因为这些数据有可能是服务器响应，用户输入或其它非 view 的数据 ）
+// 传到 store 的有效载荷。它是 store 数据的唯一来源。一般来说你会通过 store.dispatch() 将 action 传到 store。
+
+
 //connect是真正的重点，意思是先接受两个参数
 // （数据绑定mapStateToProps和事件绑定mapDispatchToProps），再接受一个参数（将要绑定的组件本身）
 
@@ -251,7 +258,24 @@ class LoginPage extends Component {
 // bindActionCreators的唯一用处就是需要传递action creater到子组件，并且改子组件并没
 // 有接收到父组件上传递的store和dispatch。
 
+//经过高阶组件包装后，每个组件都只会拥有仓库中属于自己的那部分数据，
+// 并且属于每个组件的动作还会作为props分发给对应的组件。
 
+// mapStateToProps（state, ownProps）
+// mapStateToProps是一个函数，用于建立组件跟 store 的 state 的映射关系
+// 作为一个函数，它可以传入两个参数，结果一定要返回一个 object
+
+// 传入mapStateToProps之后，会订阅store的状态改变，在每次 store 的 state 发生变化的时候，都会被调用
+// ownProps代表组件本身的props，如果写了第二个参数ownProps，那么当prop发生变化的时候，mapStateToProps也会被调用。
+// 例如，当 props接收到来自父组件一个小小的改动，那么你所使用的 ownProps 参数，mapStateToProps 都会被重新计算）。
+// mapStateToProps可以不传，如果不传，组件不会监听store的变化，也就是说Store的更新不会引起UI的更新
+
+// mapDispatchToProps
+// mapDispatchToProps用于建立组件跟store.dispatch的映射关系,可以是一个object，也可以传入函数
+// 如果mapDispatchToProps是一个函数，它可以传入dispatch,ownProps, 定义UI组件如何发出action，
+// 实际上就是要调用dispatch这个方法
+
+//bindActionCreators() 可以自动把多个 action 创建函数 绑定到 dispatch() 方法上。
 export default connect(state => ({state}), dispatch => ({
         login: bindActionCreators(loginActions, dispatch)
     })

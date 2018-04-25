@@ -93,9 +93,21 @@ class MyPage extends BasePersonPage {
 //
 // 这样也就理解了redux说的state在其他地方是只读的，只有store中可以修改的概念了。
 
+//经过高阶组件包装后，每个组件都只会拥有仓库中属于自己的那部分数据，
+// 并且属于每个组件的动作还会作为props分发给对应的组件。
+
+// mapDispatchToProps用于建立组件跟store.dispatch的映射关系,可以是一个object，也可以传入函数
+//要触发这个 action 必须 在store 上调用 dispatch 方法。
+// 为了不让 组件感知到 dispatch 的存在，我们需要将函数包装一下，
+// 使之成为直接可被调用的函数（即，调用该方法就会触发 dispatch ）。
+
+// bindActionCreator可以直接将action包装成可以被调用的函数！！！！！！！！
 export default connect(state => ({
     userState: state.user,
 }), dispatch => ({
+    // 如果mapDispatchToProps是一个函数，它可以传入dispatch,ownProps,
+    // 定义UI组件如何发出action，实际上就是要调用dispatch这个方法
+    // getProjectList: (page) => dispatch(projectActions.getProjectList(page)),
     loginAction: bindActionCreators(loginActions, dispatch),
     userAction: bindActionCreators(userActions, dispatch)
 }))(MyPage)
