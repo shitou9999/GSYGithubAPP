@@ -35,6 +35,7 @@ class PushDetailHeader extends Component {
 
     render() {
         let {actionUser, actionUserPic, pushTime, pushDes} = this.props;
+
         return (
             <View style={[{
                 marginTop: Constant.normalMarginEdge,

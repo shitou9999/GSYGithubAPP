@@ -174,6 +174,7 @@ class IssueDetailPage extends Component {
         let {repositoryName, userName} = this.props;
         let {number} = this.state.issue;
         Actions.LoadingModal({backExit: false});
+        //编辑issue回复
         issueActions.editComment(userName, repositoryName, number, commentId, null, 'delete')
             .then((res) => {
                 setTimeout(() => {
@@ -194,6 +195,7 @@ class IssueDetailPage extends Component {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
+        //编辑issue
         issueActions.editIssue(userName, repositoryName, issue.number,
             {state: (issue.state === "closed") ? 'open' : 'closed'})
             .then((res) => {
@@ -213,6 +215,7 @@ class IssueDetailPage extends Component {
         let {repositoryName, userName} = this.props;
         let {issue} = this.state;
         Actions.LoadingModal({backExit: false});
+        //锁定issue
         issueActions.lockIssue(userName, repositoryName, issue.number, issue.locked)
             .then((res) => {
                 setTimeout(() => {
@@ -288,27 +291,28 @@ class IssueDetailPage extends Component {
      * */
     _loadMore() {
         let {issue} = this.state;
-        issueActions.getIssueComment(this.page, this.props.userName, this.props.repositoryName, issue.number).then((res) => {
-            let size = 0;
-            if (res && res.result) {
-                this.page++;
-                let dataList = this.state.dataSource.concat(res.data);
-                this.setState({
-                    dataSource: dataList
-                });
-                size = res.data.length;
-                if (dataList) {
-                    dataList.forEach((item) => {
-                        if (!this.actionUser.has(item.user.login)) {
-                            this.actionUser.set(item.user.login, item.user.login);
-                        }
-                    })
+        issueActions.getIssueComment(this.page, this.props.userName, this.props.repositoryName, issue.number)
+            .then((res) => {
+                let size = 0;
+                if (res && res.result) {
+                    this.page++;
+                    let dataList = this.state.dataSource.concat(res.data);
+                    this.setState({
+                        dataSource: dataList
+                    });
+                    size = res.data.length;
+                    if (dataList) {
+                        dataList.forEach((item) => {
+                            if (!this.actionUser.has(item.user.login)) {
+                                this.actionUser.set(item.user.login, item.user.login);
+                            }
+                        })
+                    }
                 }
-            }
-            if (this.refs.pullList) {
-                this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
-            }
-        });
+                if (this.refs.pullList) {
+                    this.refs.pullList.loadMoreComplete((size >= Config.PAGE_SIZE));
+                }
+            });
     }
 
     //底部的 回复 编辑 打开 锁定

@@ -30,10 +30,7 @@ class ReleaseItem extends Component {
         let {actionTime, actionTitle, actionUserPic, actionTargetHtml, actionTarget} = this.props;
 
         let body = (actionTargetHtml) ? <HTMLView
-            style={[{
-                marginTop: Constant.normalMarginEdge / 2,
-                backgroundColor: Constant.transparentColor
-            }]}
+            style={[{marginTop: Constant.normalMarginEdge / 2, backgroundColor: Constant.transparentColor}]}
             selectable={true}
             numberOfLines={100}
             value={actionTarget}

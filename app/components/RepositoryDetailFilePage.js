@@ -177,33 +177,34 @@ class RepositoryDetailFilePage extends Component {
      * 刷新
      * */
     _refresh(path) {
-        if (this.refs.pullList)
+        if (this.refs.pullList) {
             this.refs.pullList.showRefreshState();
-        reposActions.getReposFileDir(this.props.ownerName, this.props.repositoryName, path, this.curBranch).then((res) => {
-                if (res && res.result) {
-                    let dir = [];
-                    let file = [];
-                    res.data.forEach((item) => {
-                        if (item.type === 'file') {
-                            file.push(item)
-                        } else {
-                            dir.push(item)
-                        }
-                    });
-                    let data = dir.concat(file);
-                    this.setState({
-                        dataSource: data
-                    })
-                }
-                setTimeout(() => {
-                    if (this.refs.pullList) {
-                        this.refs.pullList.refreshComplete(false, true);
+        }
+        reposActions.getReposFileDir(this.props.ownerName, this.props.repositoryName, path, this.curBranch)
+            .then((res) => {
+                    if (res && res.result) {
+                        let dir = [];
+                        let file = [];
+                        res.data.forEach((item) => {
+                            if (item.type === 'file') {
+                                file.push(item)
+                            } else {
+                                dir.push(item)
+                            }
+                        });
+                        let data = dir.concat(file);
+                        this.setState({
+                            dataSource: data
+                        })
                     }
-                }, 500);
-                this.loading = false;
-
-            }
-        )
+                    setTimeout(() => {
+                        if (this.refs.pullList) {
+                            this.refs.pullList.refreshComplete(false, true);
+                        }
+                    }, 500);
+                    this.loading = false;
+                }
+            )
     }
 
 

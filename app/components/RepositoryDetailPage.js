@@ -39,8 +39,8 @@ class RepositoryDetailPage extends Component {
         this.state = {
             dataDetail: this.props.defaultProps,
             dataDetailReadme: '',
-            index: 0,
             showBottom: false,
+            index: 0,
             routes: [
                 {key: '1', title: I18n('reposReadme')},
                 {key: '2', title: I18n('reposActivity')},
@@ -182,7 +182,7 @@ class RepositoryDetailPage extends Component {
     _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
-                //详情信息
+                //详情信息 reposReadme
                 return (
                     <WebComponent
                         source={{html: this.state.dataDetailReadme}}
@@ -201,7 +201,7 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '2':
-                //动态
+                //动态 reposActivity
                 return (
                     <RepositoryDetailActivity
                         dataDetail={this.state.dataDetail}
@@ -210,10 +210,10 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '3':
-                //文件
+                //文件 reposFile
                 return (
                     <RepositoryDetailFile
-                        ref={(ref) => {
+                        ref={ (ref) => {
                             this.detailFile = ref;
                         }}
                         curBranch={this.curBranch}
@@ -222,7 +222,7 @@ class RepositoryDetailPage extends Component {
                     />
                 );
             case '4':
-                //ISSUE
+                //ISSUE reposIssue
                 return (
                     <IssueListPage
                         userName={this.props.ownerName}
@@ -238,13 +238,14 @@ class RepositoryDetailPage extends Component {
     _forked() {
         let {ownerName, repositoryName} = this.props;
         Actions.LoadingModal({backExit: false});
-        repositoryActions.createRepositoryForks(ownerName, repositoryName).then((res) => {
-            Toast((res && res.result) ? I18n('forkSuccess') : I18n('forkFail'));
-            setTimeout(() => {
-                Actions.pop();
-                this._refresh();
-            }, 500);
-        })
+        repositoryActions.createRepositoryForks(ownerName, repositoryName)
+            .then((res) => {
+                Toast((res && res.result) ? I18n('forkSuccess') : I18n('forkFail'));
+                setTimeout(() => {
+                    Actions.pop();
+                    this._refresh();
+                }, 500);
+            })
     }
 
     _refreshChangeBranch(branch) {
@@ -261,6 +262,7 @@ class RepositoryDetailPage extends Component {
     _getBottomItem() {
         let {stared, watched, dataDetail} = this.state;
         let {ownerName, repositoryName} = this.props;
+
         return [{
             itemName: stared ? I18n("reposUnStar") : I18n("reposStar"),
             icon: "star",

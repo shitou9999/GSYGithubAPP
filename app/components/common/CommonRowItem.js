@@ -44,7 +44,7 @@ class CommonRowItem extends Component {
         )
     }
 
-    //let声明变量，但是所声明的变量，只在let命令所在的代码块内有效。
+    //let声明变量，但是所声明的变量，只在let命令所在的代码块{}内有效。
     // 不存在变量提升。
     // let不允许在相同作用域内，重复声明同一个变量
     //react语法中的...三个点要怎样理解--------->把数组全部展开!!!!!!!!!!
@@ -54,10 +54,8 @@ class CommonRowItem extends Component {
     // console.log(...array);
     //输出 1 2 3 4 5 6 7
     render() {
-        let {
-            onClickFun, itemText, showIconNext, textStyle, nameStyle, topLine, bottomLine,
-            itemIcon, iconSize, nameText
-        } = this.props;
+        let {onClickFun, itemText, showIconNext, textStyle, nameStyle,
+            topLine, bottomLine, itemIcon, iconSize, nameText} = this.props;
         let IconComponent = (showIconNext) ?
             <Icon name={Constant.nextIcon} size={Constant.smallIconSize} color={Constant.primaryColor}/>
             : <View/>;

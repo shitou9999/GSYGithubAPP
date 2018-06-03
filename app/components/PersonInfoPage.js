@@ -58,11 +58,12 @@ class PersonInfoPage extends Component {
     postChanged(params) {
         Actions.LoadingModal({backExit: false});
         //更新用户信息
-        userActions.updateUser(params).then(() => {
-            setTimeout((res) => {
-                Actions.pop();
-            }, 500);
-        });
+        userActions.updateUser(params)
+            .then(() => {
+                setTimeout((res) => {
+                    Actions.pop();
+                }, 500);
+            });
     }
 
     render() {
@@ -249,19 +250,19 @@ class PersonInfoPage extends Component {
 //
 // （2）函数的第二个参数 ownProps，是组件自己的 props。有的时候，ownProps 也会对其产生影响。
 //
-// connect 的第二个参数是 mapDispatchToProps，它的功能是，将 action 作为 props 绑定到组件上，
-// 也会成为 MyComp 的 props。
+// connect 的第二个参数是 mapDispatchToProps，
+// ！！！！它的功能是，将action作为 props 绑定到组件上，也会成为MyComp的 props。！！！！
 //state它可以是前后端的各种数据，也可以是UI上的一些信息
-//store.dispatch(action)发出操作，更新state
+//store.dispatch(action)发出操作，更新state！！！！！！
 //react-redux在redux的基础上，就关注两点：Provider和connect。
 // Provider就是把我们用rudux创建的store传递到内部的其他组件。让内部组件可以享有这个store并提供对state的更新。
 // 用store.dispatch(action)来发出操作,,将该方法绑定到属性上，我们同样可以在props查看和调用
 // const mapDispatchToProps = (dispatch, ownProps) => {
 //     return {
+//我们只要在组件中调用该属性中的方法，就可以发出一个特定的action，触发reducer对state进行更新
 //         changeActive:(args)=>dispatch({type:"changeTable",data:args})
 //     }
 // }
-//我们只要在组件中调用该属性中的方法，就可以发出一个特定的action，触发reducer对state进行更新
 
 //用connect连接react组件和redux
 export default connect(state => ({
@@ -273,49 +274,50 @@ export default connect(state => ({
 
 
 /*
-export default connect(state => ({
-        state: state.counter
-    }),
-    (dispatch) => ({
-        actions: bindActionCreators(counterActions, dispatch)
-    })
-)(CounterApp);
+ export default connect(
+ (state) => ({
+ state: state.counter
+ }),
+ (dispatch) => ({
+ actions: bindActionCreators(counterActions, dispatch)
+ })
+ )(CounterApp);
  代码等价于：
  var temp = connect(function(state) {
-     return {
-       state: state.counter
-     };
+ return {
+ state: state.counter
+ };
  }, function(dispatch) {
-     return {
-       actions: bindActionCreators(counterActions, dispatch)
-     };
+ return {
+ actions: bindActionCreators(counterActions, dispatch)
+ };
  });
 
  export default temp(CounterApp);
 
  es7的修饰符可以很清楚的标识这种语法
  @connect((state) => {
-    return {
-        todos: state.todos
-    }
+ return {
+ todos: state.todos
+ }
  })
  export default class App extends Component {
-     render(){
-        return (  )
-    }
+ render(){
+ return (  )
+ }
  }
 
  ES6写法
  data () {
-     return {
-     msg: '数据'
-     }
+ return {
+ msg: '数据'
+ }
  }
  相当于
  data: function () {
-     return {
-        msg: '数据'
-     }
+ return {
+ msg: '数据'
+ }
  }
 
-*/
+ */

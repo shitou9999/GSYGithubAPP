@@ -85,9 +85,7 @@ class ReleasePage extends Component {
             <View style={styles.mainBox}>
                 <StatusBar hidden={false} backgroundColor={'transparent'} translucent barStyle={'light-content'}/>
                 <TabViewAnimated
-                    style={{
-                        flex: 1,
-                    }}
+                    style={{flex: 1,}}
                     lazy={true}
                     swipeEnabled={false}
                     navigationState={this.state}
@@ -102,6 +100,11 @@ class ReleasePage extends Component {
             </View>
         )
     }
+
+    // initialLayout: PropTypes.shape({
+    //     height: PropTypes.number.isRequired,
+    //     width: PropTypes.number.isRequired,
+    // }),
 }
 
 ReleasePage.defaultProps = {};

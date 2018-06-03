@@ -65,6 +65,16 @@ class SearchPage extends Component {
 
     }
 
+    //在已经挂在的组件(mounted component)接收到新props时触发;
+    //简单的说是在除了第一次生命周期(componentWillMount -> render -> componentDidMount)之后的生命周期中出发;
+    //1 如果你需要在props发生变化(或者说新传入的props)来更新state，你可能需要比较this.props和nextProps,
+    // 然后使用this.setState()方法来改变this.state;
+
+    //1 React可能会在porps传入时即使没有发生改变的时候也发生重新渲染, 所以如果你想自己处理改变，
+    // 请确保比较props当前值和下一次值; 这可能造成组件重新渲染;
+
+    //2 如果你只是调用this.setState()而不是从外部传入props, 那么不会触发componentWillReceiveProps(nextProps)函数；
+    // 这就意味着: this.setState()方法不会触发componentWillReceiveProps(), props的改变或者props没有改变才会触发这个方法;
     componentWillReceiveProps(newProps) {
         let changed = false;
         if (newProps.selectTypeData !== this.selectTypeData) {

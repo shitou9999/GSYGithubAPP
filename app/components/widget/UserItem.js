@@ -29,6 +29,7 @@ class UserItem extends Component {
     render() {
         //this.props表示属性对象
         let {location, actionUser, actionUserPic} = this.props;
+
         let bottomDes = (this.props.des) ?
             <Text style={[styles.subSmallText, {marginTop: Constant.normalMarginEdge,}]}
                   numberOfLines={Constant.normalNumberOfLine}>
@@ -52,7 +53,8 @@ class UserItem extends Component {
                                loginUser={actionUser}
                                resizeMethod="scale"
                                style={[{
-                                   height: Constant.smallIconSize, width: Constant.smallIconSize,
+                                   height: Constant.smallIconSize,
+                                   width: Constant.smallIconSize,
                                    marginTop: 5,
                                    borderRadius: Constant.smallIconSize / 2
                                }]}/>
@@ -63,8 +65,7 @@ class UserItem extends Component {
                         }]}>
                             {actionUser}
                         </Text>
-                        <Text style={[styles.subSmallText,
-                            {marginTop: -20}]}>
+                        <Text style={[styles.subSmallText, {marginTop: -20}]}>
                             {location}
                         </Text>
                     </View>

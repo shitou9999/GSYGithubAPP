@@ -45,6 +45,7 @@ class RepositoryIssueListPage extends Component {
             dataSource: []
         }
     }
+
     // 请务必牢记，并不是组件中用到的所有变量都是组件的状态！
     // 这个变量是否在组件的render方法中使用？如果不是，那么它不是一个状态。
     // 这种情况下，这个变量更适合定义为组件的一个普通属性（除了props 和 state以外的组件属性 ），
@@ -267,10 +268,7 @@ class RepositoryIssueListPage extends Component {
             width: 48,
             height: 48,
             borderRadius: 25,
-            shadowOffset: {
-                width: 2,
-                height: 2
-            },
+            shadowOffset: {width: 2, height: 2},
         }] : [{backgroundColor: Constant.transparentColor}];
         return (
             <View style={styles.mainBox}>

@@ -72,9 +72,10 @@ class NotifyPage extends Component {
 
     _asRead(id) {
         //设置单个通知已读
-        userActions.setNotificationAsRead(id).then(() => {
-            this._refresh();
-        })
+        userActions.setNotificationAsRead(id)
+            .then(() => {
+                this._refresh();
+            })
     }
 
     _renderHeader = props =>
@@ -84,7 +85,7 @@ class NotifyPage extends Component {
                 indicatorStyle={{backgroundColor: Constant.miWhite}}
         />;
 
-        _renderScene = ({route}) => {
+    _renderScene = ({route}) => {
         switch (route.key) {
             case '1':
                 return (

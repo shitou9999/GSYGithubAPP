@@ -10,6 +10,7 @@ import SelectList from './SearchFilterSelectList'
  *
  */
 class SearchDrawerFilter extends React.Component {
+
     static propTypes = {
         name: PropTypes.string,
         sceneStyle: ViewPropTypes.style,

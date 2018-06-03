@@ -372,8 +372,11 @@ class CommonTextInputModal extends Component {
                             borderColor: Constant.subLightTextColor,
                             marginHorizontal: Constant.normalMarginEdge,
                         }]}>
+                            {/*ref={"contentInput"}*/}
                             <TextInput
-                                ref={"contentInput"}
+                                ref={(ref) => {
+                                    this.contentInput = ref;
+                                }}
                                 onChangeText={(text) => {
                                     this._searchTextChange(text)
                                 }}

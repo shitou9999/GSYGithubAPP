@@ -1,6 +1,4 @@
-import React, {
-    Component,
-} from 'react';
+import React, {Component} from 'react';
 import {
     Text,
     View,
@@ -28,35 +26,37 @@ class TagGroup extends Component {
         return (
             //flexWrap当Item在主轴上排不下所需要采取的动作
             <View
-                style={[styles.flexDirectionRow, {flexWrap: "wrap"}, this.props.groupStyle]}>{
-                this.props.tagList.map((data) => {
-                    return (
-                        <TouchableOpacity
-                            onPress={() => {
-                                Actions.ListPage({
-                                    dataType: 'topics', showType: 'repository',
-                                    title: data,
-                                    topic: data
-                                })
-                            }}
-                            key={"_" + data}
-                            style={[styles.centered, {
-                                borderRadius: 4,
-                                height: 24,
-                                overflow: 'hidden',
-                                padding: Constant.normalMarginEdge,
-                                backgroundColor: Constant.white,
-                                marginVertical: Constant.normalMarginEdge / 2,
-                                marginRight: Constant.normalMarginEdge,
-                            }]}>
-                            <Text numberOfLines={1}
-                                  style={[styles.centered, styles.smallText]}>
-                                {data}
-                            </Text>
-                        </TouchableOpacity>
-                    )
-                })
-            }
+                style={[styles.flexDirectionRow, {flexWrap: "wrap"}, this.props.groupStyle]}>
+                {
+                    this.props.tagList.map((data) => {
+                        return (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    Actions.ListPage({
+                                        dataType: 'topics',
+                                        showType: 'repository',
+                                        title: data,
+                                        topic: data
+                                    })
+                                }}
+                                key={"_" + data}
+                                style={[styles.centered, {
+                                    borderRadius: 4,
+                                    height: 24,
+                                    overflow: 'hidden',
+                                    padding: Constant.normalMarginEdge,
+                                    backgroundColor: Constant.white,
+                                    marginVertical: Constant.normalMarginEdge / 2,
+                                    marginRight: Constant.normalMarginEdge,
+                                }]}>
+                                <Text numberOfLines={1}
+                                      style={[styles.centered, styles.smallText]}>
+                                    {data}
+                                </Text>
+                            </TouchableOpacity>
+                        )
+                    })
+                }
             </View>
         );
     }

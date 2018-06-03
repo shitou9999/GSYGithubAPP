@@ -191,9 +191,9 @@ class SettingPage extends Component {
     }
 }
 //mapStateProps的作用就是只绑定当前组件相关的state属性,,state的作用是从组件读取state属性
-//return { text: state.text } //传入单一的属性
-//return state.login   //传入当前组件的所有属性
-//return state //传入所有的state属性
+//return { text: state.text } //传入单一的属性!!!
+//return state.login   //传入当前组件的所有属性!!!!!!!!!!
+//return state //传入所有的state属性!!!!!!!!!!!!
 
 //export default connect(mapStateToProps,mapDispatchToProps)(MainPage);
 

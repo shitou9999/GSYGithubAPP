@@ -67,6 +67,7 @@ const getPulseDao = async (owner, repositoryName) => {
         if (res && res.result && res.data) {
             realm.write(() => {
                 let allData = realm.objects('RepositoryPulse').filtered(`fullName="${fullName}"`);
+                //删除已有的数据
                 realm.delete(allData);
                 //创建表
                 realm.create('RepositoryPulse', {
@@ -160,6 +161,7 @@ const getUserRepositoryDao = async (userName, page, sort, localNeed) => {
             result: res.result
         };
     };
+    //缓存
     let local = async () => {
         let allData = realm.objects('UserRepos').filtered(`userName="${userName}" AND sort="${sortText}"`);
         if (allData && allData.length > 0) {
@@ -180,6 +182,7 @@ const getUserRepositoryDao = async (userName, page, sort, localNeed) => {
             };
         }
     };
+    //不需要缓存取net
     return localNeed ? local() : nextStep();
 };
 
@@ -209,6 +212,7 @@ const getStarRepositoryDao = async (userName, page, sort, localNeed) => {
             result: res.result
         };
     };
+    //缓存
     let local = async () => {
         let allData = realm.objects('UserStared').filtered(`userName="${userName}" AND sort="${sortText}"`);
         if (allData && allData.length > 0) {
@@ -241,9 +245,11 @@ const getRepositoryDetailDao = (userName, reposName) => {
         let url = Address.getReposDetail(userName, reposName);
         let res = await await Api.netFetch(url, 'GET', null, false, {Accept: 'application/vnd.github.mercy-preview+json'});
         if (res && res.result && res.data) {
+            //获取issue总数net
             let issueRes = await getRepositoryIssueStatusDao(userName, reposName);
             let netData = res.data;
             try {
+                //获取issue总数net
                 if (issueRes && issueRes.result && issueRes.data) {
                     netData.all_issues_count = parseInt(issueRes.data);
                     netData.closed_issues_count = netData.all_issues_count - netData.open_issues_count;
@@ -587,7 +593,10 @@ const getRepositoryStatusDao = async (userName, reposName) => {
     let ress = await await Api.netFetch(urls);
     let resw = await await Api.netFetch(urlw);
     return {
-        data: {star: ress.result, watch: resw.result},
+        data: {
+            star: ress.result,
+            watch: resw.result
+        },
         result: true
     };
 };
@@ -622,7 +631,9 @@ const doRepositoryWatchDao = async (userName, reposName, watch) => {
  */
 const getRepositoryReleaseDao = async (userName, reposName, page, needHtml = true) => {
     let url = Address.getReposRelease(userName, reposName) + Address.getPageParams("?", page);
-    let res = await await Api.netFetch(url, 'GET', null, false, {Accept: (needHtml ? 'application/vnd.github.html,application/vnd.github.VERSION.raw' : "")});
+    let res = await await Api.netFetch(url, 'GET', null, false, {
+        Accept: (needHtml ? 'application/vnd.github.html,application/vnd.github.VERSION.raw' : "")
+    });
     return {
         data: res.data,
         result: res.result

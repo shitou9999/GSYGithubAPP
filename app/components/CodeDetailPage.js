@@ -29,8 +29,12 @@ class CodeDetailPage extends Component {
     }
 
     componentDidMount() {
+        //InteractionManager(交互管理器)runAfterInteractions(): 在稍后执行代码，不会延迟当前进行的动画。
+        //不过你可以用InteractionManager来确保在执行繁重工作之前所有的交互和动画都已经处理完毕。
         InteractionManager.runAfterInteractions(() => {
+            // ...需要长时间同步执行的任务...
             if (this.props.needRequest) {
+                // 获取仓库的文件列表
                 reposActions.getReposFileDir(this.props.ownerName,
                     this.props.repositoryName, this.props.path, this.props.branch).then((res) => {
                         if (res && res.result) {
@@ -69,7 +73,6 @@ class CodeDetailPage extends Component {
                                 this.refs.pullList.refreshComplete(false);
                             }
                         }, 500);
-
                     }
                 )
             }
@@ -78,6 +81,12 @@ class CodeDetailPage extends Component {
         this.handle = BackHandler.addEventListener('CodeDetailPage-hardwareBackPress', this._BackHandler)
     }
 
+    //监听函数是按倒序的顺序执行（即后添加的函数先执行）。如果某一个函数返回true，则后续的函数都不会被调用。
+    // BackHandler.addEventListener('hardwareBackPress', this.onBackPressed);
+    // BackHandler.removeEventListener('hardwareBackPress', this.onBackPressed);
+//     同时又两个页面a和b（其中b页面后入栈）监听Android的back键事件，
+// - 如果b页面中的监听函数 return true 的情况下，a页面就不会监听到back键事件了。
+// - 如果b页面中的监听函数 return false 或者没有返回值，a页面也能监听到back事件。
 
     componentWillUnmount() {
         if (this.handle) {

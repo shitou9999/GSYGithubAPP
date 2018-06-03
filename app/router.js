@@ -2,11 +2,9 @@
  * Created by guoshuyu on 2017/11/7.
  */
 import React, {Component} from 'react';
-import {
-    Scene,
-    Router,
-    Lightbox, Drawer
-} from 'react-native-router-flux';
+
+import {Scene, Router, Lightbox, Drawer} from 'react-native-router-flux';
+
 import DynamicPage from './components/DynamicPage'
 import LoginPage from './components/LoginPage'
 import MyPage from './components/MyPage'
@@ -47,8 +45,9 @@ import {screenWidth, drawerWidth} from "./style/index";
 
 /**
  * 全局路由
- * backAndroidHandler允许在Android中自定义控制返回按钮（可选）
+ * backAndroidHandler允许在Android中自定义控制返回按钮（可选）--->已过时
  * https://www.cnblogs.com/lemonzwt/p/8182345.html
+ * https://www.jianshu.com/p/37428d579cf6
  */
 const getRouter = () => {
     {/*Lightbox是用于将组件渲染在当前组件上Scene的组件 。与Modal不同，它将允许调整大小和背景的透明度*/}

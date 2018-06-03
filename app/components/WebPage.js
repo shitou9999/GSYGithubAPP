@@ -21,12 +21,6 @@ export default class WebPage extends Component {
 
     constructor(props: Object) {
         super(props);
-        this.canGoBack = false;
-        this.state = {
-            uri: this.resolveUrl(this.props.uri),
-            showCurUri: this.resolveUrl(this.props.uri)
-        };
-        this.inputText = this.resolveUrl(this.props.uri);
         this.onNavigationStateChange = this.onNavigationStateChange.bind(this);
         this.handleTextInputChange = this.handleTextInputChange.bind(this);
         this.reload = this.reload.bind(this);
@@ -35,11 +29,18 @@ export default class WebPage extends Component {
         this.back = this.back.bind(this);
         this.pressGoButton = this.pressGoButton.bind(this);
         this.resolveUrl = this.resolveUrl.bind(this);
+        this.canGoBack = false;
+        this.state = {
+            uri: this.resolveUrl(this.props.uri),
+            showCurUri: this.resolveUrl(this.props.uri)
+        };
+        this.inputText = this.resolveUrl(this.props.uri);
     }
+
+    //react-native中可以通过 ref 属性来获取组件，并设置组件的属性及其方法
 
     componentDidMount() {
         this.handle = BackHandler.addEventListener('hardwareBackPress-WebPage', this.back)
-
     }
 
     componentWillUnmount() {
@@ -60,6 +61,8 @@ export default class WebPage extends Component {
         return url;
     }
 
+    //在RN的WebView里边，很多时候需要获取一个点击事件，
+    // 来操作原生代码处理一些事情。可以使用onNavigationStateChange、onMessage来解决
     onNavigationStateChange = (navState) => {
         this.canGoBack = navState.canGoBack;
         this.setState({
@@ -77,6 +80,7 @@ export default class WebPage extends Component {
         }
     }
 
+    //回退
     goBack = () => {
         if (this.canGoBack) {
             this.webview.goBack();
@@ -127,6 +131,7 @@ export default class WebPage extends Component {
                         onPress={this.goBack}>
                         <Icon name={'md-arrow-round-back'} size={18} color={Constant.miWhite}/>
                     </TouchableOpacity>
+{/*onSubmitEditing此回调函数当软键盘的确定/提交按钮被按下的时候调用此函数。如果multiline={true}，此属性不可用。*/}
                     <TextInput
                         ref='textInput'
                         autoCapitalize="none"
@@ -143,10 +148,7 @@ export default class WebPage extends Component {
                             backgroundColor: Constant.subLightTextColor,
                         }, styles.flex]}/>
                     <TouchableOpacity
-                        style={[styles.centered, {
-                            marginRight: Constant.normalMarginEdge,
-                            paddingLeft: 20
-                        }]}
+                        style={[styles.centered, {marginRight: Constant.normalMarginEdge, paddingLeft: 20}]}
                         onPress={this.pressGoButton}>
                         <Icon name={'md-search'} size={19} color={Constant.miWhite}/>
                     </TouchableOpacity>

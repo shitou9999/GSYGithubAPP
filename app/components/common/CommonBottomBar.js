@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {
-    View, Text, TouchableOpacity
+    View,
+    Text,
+    TouchableOpacity
 } from 'react-native';
 import PropTypes from 'prop-types';
 import styles from "../../style/index"
@@ -24,6 +26,22 @@ class CommonBottomBar extends Component {
     componentWillUnmount() {
 
     }
+
+// {
+//     itemName: stared ? I18n("reposUnStar") : I18n("reposStar"),
+//     itemTextColor: select === 0 ? Constant.white : Constant.subTextColor,
+//     icon: "star",
+//     iconColor: stared ? Constant.primaryColor : Constant.miWhite,
+//     itemClick: () => {
+//         Actions.LoadingModal({backExit: false});
+//         repositoryActions.doRepositoryStar(ownerName, repositoryName, !stared).then((res) => {
+//             setTimeout(() => {
+//                 Actions.pop();
+//                 this._refresh();
+//             }, 500);
+//         })
+//     }, itemStyle: {}
+// }
 
     renderItem(data) {
         let iconColor = data.iconColor ? data.iconColor : Constant.primaryColor;

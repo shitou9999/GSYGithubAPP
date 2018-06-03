@@ -56,9 +56,7 @@ class OrgItemBar extends Component {
                 <View
                     style={[styles.centered, {height: itemSize, width: itemSize,},]}
                     key={"title"}>
-                    <Text style={[styles.miLightSmallText]}>
-                        {I18n("userOrg")}
-                    </Text>
+                    <Text style={[styles.miLightSmallText]}>{I18n("userOrg")}</Text>
                 </View>;
             items.push(title)
         }

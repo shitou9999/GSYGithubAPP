@@ -4,6 +4,7 @@
 
 import {NetInfo, Platform, AsyncStorage} from 'react-native';
 import I18n from '../style/i18n'
+//导出常量
 import * as Constant from '../style/constant'
 import * as Code from './netwrokCode'
 import handlerError from './netwrokCode'
@@ -41,7 +42,9 @@ class HttpManager {
      * @param header 外加头
      * @return {Promise.<*>}
      */
-    async netFetch(url, method = 'GET', params, json, header) {
+    //let res = await Api.netFetch(url, 'GET', null, false, {Accept: 'application/.VERSION.raw'});
+    // let res = await await Api.netFetch(url, 'GET', null, false, {Accept: 'application/vnd.github.mercy-preview+json'});
+async netFetch(url, method = 'GET', params, json, header) {
         let isConnected = await NetInfo.isConnected.fetch().done;
         //网络错误
         if (!isConnected) {

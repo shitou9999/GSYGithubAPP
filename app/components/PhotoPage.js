@@ -38,7 +38,8 @@ class PhotoPage extends Component {
                 position: 'absolute', top: 100, left: 100, right: 100, bottom: 100,
                 flex: 1,
                 justifyContent: "center",
-                alignItems: "center", backgroundColor: Constant.transparentColor
+                alignItems: "center",
+                backgroundColor: Constant.transparentColor
             }, styles.centered]}>
                 <ActivityIndicator
                     color={Constant.white}

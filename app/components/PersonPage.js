@@ -81,23 +81,25 @@ class PersonPage extends BasePersonPage {
                 }
             });
         //检查用户关注状态
-        userAction.checkFollow(this.props.currentUser).then((res) => {
-            this.setState({
-                hadFollowed: res.result,
-                needFollow: true
-            })
-        });
+        userAction.checkFollow(this.props.currentUser)
+            .then((res) => {
+                this.setState({
+                    hadFollowed: res.result,
+                    needFollow: true
+                })
+            });
     }
 
     doFollowLogic() {
         Actions.LoadingModal({backExit: false});
         //关注用户
-        userAction.doFollow(this.props.currentUser, !this.state.hadFollowed).then(() => {
-            this._refreshInfo();
-            setTimeout(() => {
-                Actions.pop();
-            }, 500);
-        })
+        userAction.doFollow(this.props.currentUser, !this.state.hadFollowed)
+            .then(() => {
+                this._refreshInfo();
+                setTimeout(() => {
+                    Actions.pop();
+                }, 500);
+            })
     }
 }
 

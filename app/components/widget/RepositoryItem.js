@@ -40,17 +40,8 @@ class RepositoryItem extends Component {
 
     render() {
         let {
-            ownerName,
-            ownerPic,
-            repositoryName,
-            repositoryStar,
-            repositoryFork,
-            repositoryWatch,
-            repositoryType,
-            repositoryDes,
-            repositoryStared,
-            repositoryForked,
-            repositoryWatched,
+            ownerName, ownerPic, repositoryName, repositoryStar, repositoryFork, repositoryWatch,
+            repositoryType, repositoryDes, repositoryStared, repositoryForked, repositoryWatched,
             hideWatchIcon
         } = this.props;
 
@@ -73,8 +64,7 @@ class RepositoryItem extends Component {
                 }, styles.shadowCard]}
                 onPress={() => {
                     Actions.RepositoryDetail({
-                        repositoryName: repositoryName, ownerName: ownerName
-                        , title: repositoryName
+                        repositoryName: repositoryName, ownerName: ownerName, title: repositoryName
                     });
                 }}
             >

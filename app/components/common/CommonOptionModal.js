@@ -83,11 +83,7 @@ class CommonOptionModal extends Component {
                    backdropOpacity={0.8}>
                 <View style={[styles.centered, {height: screenHeight, width: screenWidth}]}>
                     <View style={[styles.centered, {height: currentHeight, width: screenWidth}]}>
-                        <ScrollView style={[{
-                            backgroundColor: Constant.white,
-                            borderRadius: 4,
-                            width: width,
-                        }]}>
+                        <ScrollView style={[{backgroundColor: Constant.white, borderRadius: 4, width: width,}]}>
                             {items}
                         </ScrollView>
                     </View>

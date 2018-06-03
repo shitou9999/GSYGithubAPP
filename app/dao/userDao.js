@@ -35,12 +35,15 @@ const getUserInfoDao = async (userName) => {
             res = await Api.netFetch(Address.getUserInfo(userName));
         }
         if (res && res.result) {
+            //start的数量
             let countRes = await getUserStaredCountNet(res.data.login);
             let starred = "---";
             if (countRes.result) {
                 starred = countRes.data;
             }
+            //浅复制
             let totalInfo = Object.assign({}, res.data, {starred: starred});
+            // JSON.stringify方法用于将 JavaScript 值转换为 JSON 字符串
             realm.write(() => {
                 let allData = realm.objects('UserInfo').filtered(`userName="${res.data.login}"`);
                 if (allData && allData.length > 0) {
@@ -233,7 +236,7 @@ const getNotifationDao = async (all, participating, page) => {
  * 设置单个通知已读
  */
 const setNotificationAsReadDao = async (id) => {
-    let url = Address.setNotificationAsRead(id)
+    let url = Address.setNotificationAsRead(id);
     let res = await Api.netFetch(url, "PATCH");
     return {
         result: res.result,
@@ -247,7 +250,7 @@ const setNotificationAsReadDao = async (id) => {
  * 设置所有通知已读
  */
 const setAllNotificationAsReadDao = async () => {
-    let url = Address.setAllNotificationAsRead()
+    let url = Address.setAllNotificationAsRead();
     let res = await Api.netFetch(url, "PUT", {}, true);
     return {
         result: res.result,
@@ -260,7 +263,7 @@ const setAllNotificationAsReadDao = async () => {
  * 更新用户信息
  */
 const updateUserDao = async (params) => {
-    let url = Address.getMyUserInfo()
+    let url = Address.getMyUserInfo();
     let res = await Api.netFetch(url, "PATCH", params, true);
     if (res && res.result) {
         AsyncStorage.setItem(Constant.USER_INFO, JSON.stringify(res.data));

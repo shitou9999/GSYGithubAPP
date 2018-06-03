@@ -4,7 +4,12 @@
 
 import React, {Component, PureComponent} from 'react';
 import {
-    View, Text, StatusBar, InteractionManager, StyleSheet, Keyboard
+    View,
+    Text,
+    StatusBar,
+    InteractionManager,
+    StyleSheet,
+    Keyboard
 } from 'react-native';
 import PropTypes from 'prop-types';
 import {Actions, Tabs} from 'react-native-router-flux';
@@ -34,7 +39,7 @@ class RepositoryDetailActivityPage extends Component {
         this._renderRow = this._renderRow.bind(this);
         this._getBottomItem = this._getBottomItem.bind(this);
         this.page = 2;
-        //初始化一些状态 dataSource动态 dataSourceCommits提交
+        //初始化一些状态dataSource动态 dataSourceCommits提交
         this.state = {
             select: 0,
             pulseData: null,
@@ -84,8 +89,7 @@ class RepositoryDetailActivityPage extends Component {
                     onPressItem={() => {
                         Actions.PushDetailPage({
                             repositoryName: this.props.repositoryName, userName: this.props.ownerName
-                            , title: this.props.ownerName + "/" + this.props.repositoryName,
-                            sha: rowData.sha,
+                            , title: this.props.ownerName + "/" + this.props.repositoryName, sha: rowData.sha,
                         });
                     }}
                     actionTarget={rowData.commit.message}/>
@@ -113,7 +117,7 @@ class RepositoryDetailActivityPage extends Component {
             select = this.state.select;
         }
         if (select === 0) {
-            //动态   当.then()前的方法执行完后再执行then()内部的程序，这样就避免了，数据没获取到等的问题。
+            //动态
             //当.then()前的方法执行完后再执行then()内部的程序，这样就避免了，数据没获取到等的问题。
             eventActions.getRepositoryEvent(0, this.props.ownerName, this.props.repositoryName)
                 .then((res) => {
@@ -285,7 +289,7 @@ class RepositoryDetailActivityPage extends Component {
             forks_count, fork, open_issues_count, size, watchers_count, owner,
             subscribers_count, description, language, created_at, pushed_at, parent,
             topics, license, all_issues_count, closed_issues_count
-        } = this.props.dataDetail;
+        } = this.props.dataDetail;//来自上一级
         let data = this.state.select === 0 ? this.state.dataSource : this.state.dataSourceCommits;
         let header =
             <View>

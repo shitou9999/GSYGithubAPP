@@ -21,8 +21,8 @@ class MyPage extends BasePersonPage {
         this.showType = 0;
     }
 
-    //Interactionmanager可以将一些耗时较长的工作安排到所有互动或动画
-    // 完成之后再进行。这样可以保证JavaScript动画的流畅运行。
+    //Interactionmanager可以将一些耗时较长的工作安排到所有互动或动画完成之后再进行。
+    // 这样可以保证JavaScript动画的流畅运行。
 //     requestAnimationFrame(): 用来执行在一段时间内控制视图动画的代码
 //     setImmediate/setTimeout/setInterval(): 在稍后执行代码。注意这有可能会延迟当前正在进行的动画。
 //     runAfterInteractions(): 在稍后执行代码，不会延迟当前进行的动画。

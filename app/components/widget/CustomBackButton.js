@@ -30,9 +30,12 @@ class BackButton extends Component {
             return <View/>;
         }
         return (
-            <TouchableOpacity style={[styles.centered, {marginHorizontal: 2 * Constant.normalMarginEdge, marginTop:5}]} onPress={() => {
-                Actions.pop();
-            }}>
+            <TouchableOpacity
+                style={[styles.centered, {marginHorizontal: 2 * Constant.normalMarginEdge, marginTop: 5}]}
+                onPress={() => {
+                    Actions.pop();
+                }}
+            >
                 <Icon name={'md-arrow-round-back'} size={20} color={Constant.miWhite}/>
             </TouchableOpacity>
         )

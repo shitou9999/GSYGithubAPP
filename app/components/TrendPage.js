@@ -91,6 +91,7 @@ class TrendPage extends Component {
     }
 
     render() {
+        //state.repository
         let {reposState} = this.props;
         let dataSource = (reposState.trend_repos_data_list);
         return (
@@ -121,7 +122,9 @@ class TrendPage extends Component {
                         itemHeight={filterItemHeight}
                         style={pickerViewStyle}
                         textStyle={pickerTextStyle}
+                        {/*dropDownStyle导出数组*/}
                         dropdownStyle={[...dropDownStyle, {height: filterItemHeight * TrendType.length}]}
+                        {/*数组*/}
                         options={TrendType}
                         onSelect={(rowID, rowData) => {
                             this.languageType = rowData.value;
@@ -145,7 +148,9 @@ class TrendPage extends Component {
     }
 
 }
-
+//store 里能直接通过 store.dispatch() 调用 dispatch() 方法，
+// 但是多数情况下你会使用 react-redux 提供的 connect() 帮助器来调用。
+//bindActionCreators() 可以自动把多个 action 创建函数 绑定到 dispatch() 方法上。
 export default connect(state => ({
     userState: state.user,
     loginState: state.login,

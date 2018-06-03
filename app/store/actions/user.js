@@ -30,7 +30,6 @@ const initUserInfo = async () => {
         result: res.result && (token !== null),
         data: res.data
     };
-
 };
 
 /**

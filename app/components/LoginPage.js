@@ -17,17 +17,16 @@ import styles, {screenHeight, screenWidth} from "../style"
 import * as Constant from "../style/constant"
 import PropTypes from 'prop-types';
 import I18n from '../style/i18n'
-
-import loginActions from '../store/actions/login'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-
-import Modal from 'react-native-modalbox';
-import {Actions} from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import IconC from 'react-native-vector-icons/Entypo'
 import {Fumi} from 'react-native-textinput-effects';
 import Toast from './common/ToastProxy'
+
+import loginActions from '../store/actions/login'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import Modal from 'react-native-modalbox';
+import {Actions} from 'react-native-router-flux';
 
 const animaTime = 600;
 
@@ -55,7 +54,8 @@ class LoginPage extends Component {
             opacity: new Animated.Value(0),
         }
     }
-
+//通过export方式导出，在导入时要加{ }，export default则不需要
+    //我们一般推荐使用const来声明一个函数
     componentDidMount() {
         this.onOpen();
         this.handle = BackHandler.addEventListener('hardwareBackPress-LoginPage', this.onClose);
@@ -272,8 +272,8 @@ class LoginPage extends Component {
 
 // mapDispatchToProps
 // mapDispatchToProps用于建立组件跟store.dispatch的映射关系,可以是一个object，也可以传入函数
-// 如果mapDispatchToProps是一个函数，它可以传入dispatch,ownProps, 定义UI组件如何发出action，
-// 实际上就是要调用dispatch这个方法
+// 如果mapDispatchToProps是一个函数，它可以传入dispatch,ownProps, ！！！定义UI组件如何发出action！！！！
+// 实际上就是要调用dispatch这个方法！！！！！！！
 
 //bindActionCreators() 可以自动把多个 action 创建函数 绑定到 dispatch() 方法上。
 export default connect(state => ({state}), dispatch => ({

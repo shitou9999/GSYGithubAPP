@@ -201,6 +201,6 @@ export const getNewsVersion = (showTip, onlyCheck = true) => {
                 }
             }
         })
-}
+};
 
 export default AboutPage

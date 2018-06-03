@@ -30,6 +30,7 @@ const getTrend = (page = 0, since = 'daily', languageType, callback) => async (d
             type: REPOSITORY.TREND_REPOSITORY,
             res: res.data
         });
+        //回掉！！！
         callback && callback(res.data);
     } else {
         callback && callback(null);

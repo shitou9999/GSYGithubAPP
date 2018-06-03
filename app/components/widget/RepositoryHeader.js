@@ -81,22 +81,9 @@ class RepositoryHeader extends Component {
 
     render() {
         let {
-            ownerName,
-            ownerPic,
-            repositoryName,
-            repositoryStar,
-            repositoryFork,
-            repositoryWatch,
-            repositoryType,
-            repositoryIsFork,
-            repositoryDes,
-            repositorySize,
-            repositoryIssue,
-            repositoryParentName,
-            created_at,
-            push_at,
-            topics,
-            license
+            ownerName, ownerPic, repositoryName, repositoryStar, repositoryFork, repositoryWatch,
+            repositoryType, repositoryIsFork, repositoryDes, repositorySize, repositoryIssue, repositoryParentName,
+            created_at, push_at, topics, license
         } = this.props;
 
         let bottomIconStyle = {

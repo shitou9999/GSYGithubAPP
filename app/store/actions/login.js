@@ -15,7 +15,7 @@ import {CLIENT_ID, CLIENT_SECRET} from '../../config/ignoreConfig'
 const toLogin = () => async (dispatch, getState) => {
 
 };
-
+//Action创建函数也可以是异步非纯函数。
 /**
  * 登陆请求
  */
@@ -39,6 +39,8 @@ const doLogin = (userName, password, callback) => async (dispatch, getState) => 
         //保存密码
         AsyncStorage.setItem(Constant.PW_KEY, password);
         let current = await userAction.getUserInfo();
+        //除了 type 字段外，action 对象的结构完全由你自己决定。
+        //Redux 中只需把 action 创建函数的结果传给 dispatch() 方法即可发起一次 dispatch 过程
         dispatch({
             type: LOGIN.IN,
             res
@@ -61,6 +63,7 @@ const loginOut = () => async (dispatch, getState) => {
         type: LOGIN.CLEAR,
     });
 };
+
 //使用async/await语法解决网络请求的异步导致的指令执行顺序错乱问题!!!!
 //如果你在一个代码块中使用了fetch，那么在执行的时候程序不会等待网络响应结束才执行下一条代码，
 // 而是会直接按顺序执行完整个代码块。而这样的话，某些具有先后条件的代码就会存在结果混乱等问题
@@ -80,6 +83,11 @@ const getLoginParams = async () => {
         password: (password) ? password : "",
     }
 };
+//我们约定，action 内必须使用一个字符串类型的 type 字段来表示将要执行的动作。多数情况下，type 会被定义成字符串常量。
+// 当应用规模越来越大时，建议使用单独的模块或文件来存放 action。
+// import { ADD_TODO, REMOVE_TODO } from '../actionTypes' 我们应该尽量减少在 action 中传递的数据。
+// Action是把数据从应用（译者注：这里之所以不叫 view 是因为这些数据有可能是服务器响应，用户输入或其它非 view 的数据 ）
+// 传到 store 的有效载荷。它是 store 数据的唯一来源。一般来说你会通过 store.dispatch() 将 action 传到 store。
 //Action说白了就是一个带type属性的JavaScript对象
 export default {
     toLogin,

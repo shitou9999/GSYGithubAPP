@@ -44,6 +44,7 @@ class CommonIconButton extends Component {
     }
 
     render() {
+        ////////////////this.local
         this.local = this.props;
         if (this.props.data) {
             this.local = this.props.data;

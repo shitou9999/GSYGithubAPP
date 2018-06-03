@@ -15,7 +15,10 @@ import issue from "./issue"
 
 // 合并后的 reducer 可以调用各个子 reducer，并把它们的结果合并成一个 state 对象。
 // state 对象的结构由传入的多个 reducer 的 key 决定。
-//组合多个reducer
+
+//只有一个单一的 store 和一个根级的 reduce 函数（reducer）
+// 随着应用不断变大，你应该把根级的 reducer 拆成多个小的 reducers，分别独立地操作 state 树的不同部分，而不是添加新的 stores
+//组合多个reducer！！！！！
 export default combineReducers({
     login: login,
     user: user,

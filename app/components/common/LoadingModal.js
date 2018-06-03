@@ -2,11 +2,7 @@
  * Created by guoshuyu on 2017/11/12.
  */
 import React, {Component} from 'react';
-import {
-    Text,
-    View,
-    BackHandler
-} from 'react-native';
+import {Text, View, BackHandler} from 'react-native';
 import PropTypes from 'prop-types';
 import styles, {screenWidth, screenHeight} from "../../style/index"
 import * as Constant from "../../style/constant"
@@ -33,7 +29,18 @@ class LoadingModal extends Component {
     }
 
     //执行一次，在初始化render之前执行，如果在这个方法内调用setState，render()知道state发生变化，并且只执行一次
-    componentWillMount(){}
+    componentWillMount() {
+    }
+
+    //在初始化render之后只执行一次，在这个方法内，可以访问任何组件，componentDidMount()方法中的子组件
+    // 在父组件之前执行，从这个函数开始，就可以和 JS 其他框架交互了，
+    // 例如设置计时 setTimeout 或者 setInterval，或者发起网络请求
+    componentDidMount() {
+        if (this.refs.loginModal){
+            this.refs.loginModal.open();
+        }
+        this.handle = BackHandler.addEventListener('loaddingBack', this.onClose)
+    }
 
     //当组件要被从界面上移除的时候，就会调用componentWillUnmount(),在这个函数中，
     // 可以做一些组件相关的清理工作，例如取消计时器、网络请求等
@@ -43,23 +50,18 @@ class LoadingModal extends Component {
         }
     }
 
-    //在初始化render之后只执行一次，在这个方法内，可以访问任何组件，componentDidMount()方法中的子组件
-    // 在父组件之前执行，从这个函数开始，就可以和 JS 其他框架交互了，
-    // 例如设置计时 setTimeout 或者 setInterval，或者发起网络请求
-    componentDidMount() {
-        if (this.refs.loginModal)
-            this.refs.loginModal.open();
-        this.handle = BackHandler.addEventListener('loaddingBack', this.onClose)
-    }
-
     onClose() {
         Actions.pop();
         return true;
     }
 
     render() {
+        // ref={"loginModal"}
         return (
-            <Modal ref={"loginModal"}
+            <Modal
+                   ref = {(ref)=>{
+                       this.loginModal = ref;
+                   }}
                    style={[{height: screenHeight, width: screenWidth, backgroundColor: "#F0000000"}]}
                    position={"center"}
                    backButtonClose={false}
@@ -69,7 +71,8 @@ class LoadingModal extends Component {
                     <View>
                         <Spinner style={[styles.centered]}
                                  isVisible={true}
-                                 size={50} type="9CubeGrid"
+                                 size={50}
+                                 type="9CubeGrid"
                                  color="#FFFFFF"/>
                         <Text style={styles.normalTextWhite}>{this.props.text}</Text>
                     </View>
@@ -78,7 +81,7 @@ class LoadingModal extends Component {
         )
     }
 }
-//import PropTypes from 'prop-types';组件的参数检测！！
+//import PropTypes from 'prop-types';组件的参数类型检测！！！！！！！！！
 //propTypes给组件的配置参数加上类型验证，
 //就是说，传递进来的参数类型，我们有规定，如果不符合规定，就报错
 //propTypes帮我们指定了参数类型，但并没有规定这个参数一定要传入，
